@@ -22,6 +22,8 @@ The following is a description of the logical steps of the philo program
 
 ### 3.1 Parser
 
+The parser function validates and converts input arguments into appropriate long integer values for the table structure. It begins by checking if the input strings represent valid numeric values (excluding alphabetic characters and invalid symbols). The ft_atol function converts these strings to long integers, ensuring they are within a valid range and not exceeding INT_MAX. The parser also checks if the converted values are above certain minimum limits (e.g., 60 milliseconds) for specific parameters like time_to_die, time_to_eat, and time_to_sleep. If any error is detected during these checks, it returns -1; otherwise, it populates the t_table structure with the parsed values.
+
 ### 3.2 Setting the table
 
 ### 3.3 Loop
