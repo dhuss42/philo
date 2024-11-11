@@ -26,6 +26,8 @@ The parser function validates and converts input arguments into appropriate long
 
 ### 3.2 Setting the table
 
+The set_the_table function is responsible for setting up the philosophers' dining environment by allocating and initializing the necessary data structures. First, it allocates memory for the philosophers and forks arrays. Each fork is associated with a mutex (pthread_mutex_t), which is initialized to ensure that only one philosopher can hold a fork at any given time, preventing concurrent access issues. The set_philo function then initializes each philosopher's properties, such as their unique ID, hunger status, and meal counter, and assigns them their respective forks. For even-numbered philosophers, the fork assignment is reversed to reduce the risk of deadlock, allowing for a circular fork arrangement.
+
 ### 3.3 Loop
 
 ### 3.4 Cleaning up

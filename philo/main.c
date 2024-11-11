@@ -9,7 +9,8 @@ int main(int argc, char *argv[])
     {
         if (parser(&table, argv) == -1)
             return (-1);
-        
+        if (set_the_table(&table) == -1)
+            return (-1);
 
         // creating everything
         //  looping

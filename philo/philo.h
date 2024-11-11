@@ -12,6 +12,16 @@
 #include <pthread.h>
 #include <limits.h>
 
+//----------------colors--------------//
+#define RESET       "\033[0m"
+#define BLACK       "\033[30m"
+#define RED         "\033[31m"
+#define GREEN       "\033[32m"
+#define YELLOW      "\033[33m"
+#define BLUE        "\033[34m"
+#define MAGENTA     "\033[35m"
+#define CYAN        "\033[36m"
+#define WHITE       "\033[37m"
 
 // struct that holds the info
 
@@ -28,9 +38,9 @@ typedef struct s_fork
 typedef struct s_philo
 {
     int     id;
-    long    meals_counter; // for optional variable
-    bool    full;
-    long    last_meal_time; // time passed from last meal
+    long    meals_eaten; // for optional variable
+    bool    hungry;
+    long    last_meal; // time passed from last meal
     t_fork  *left_fork;
     t_fork  *right_fork;
     pthread_t   thread_id;
@@ -45,13 +55,14 @@ struct s_table
     long    time_to_sleep;
     long    nbr_meals;
     long    start_time;
-    bool    end_simulation;
+    bool    philo_died;
     t_fork  *forks;
     t_philo *philos;
 };
 
-int parser(t_table *table, char **argv);
+int     parser(t_table *table, char **argv);
+int    set_the_table(t_table *table);
 
-void error_handling(char *str, char *error_msg);
+void    error_handling(char *str, char *error_msg);
 
 #endif

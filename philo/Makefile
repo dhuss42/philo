@@ -3,6 +3,7 @@ CC = cc
 CFLAGS = -Werror -Wextra -Wall
 CFILES = main.c\
 	parser.c\
+	set_the_table.c\
 	error_handling.c
 OBJ_DIR = obj
 OFILES =$(CFILES:%.c=$(OBJ_DIR)/%.o)
