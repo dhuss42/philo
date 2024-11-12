@@ -12,8 +12,8 @@ int main(int argc, char *argv[])
         if (set_the_table(&table) == -1)
             return (-1);
 
-        // creating everything
         //  looping
+        
         //  clean if 1 philo dies or everyone is full
     }
     else

@@ -50,6 +50,7 @@
 // time to think = time to eat * 2 - t_sleep // available time to think
 // if t_think is negative
 //      t_think = 0;
+// -> custom ussleep(t_think * 42) (avoids double think by forcing philo to think and give opportunty for other philo to take the forkleaves 58% up to the system)
 
 //------eat------//
 // grab the forks left and right

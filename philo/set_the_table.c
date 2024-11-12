@@ -14,8 +14,6 @@ void    distribute_forks(t_philo *philo, t_fork *forks, int position)
 // function to distribute forks in a circular manner
 // for even numbered philos the distribution is reversed to avoid deadlock
 
-// 
-
 void    set_philo(t_table *table)
 {
     int i;
