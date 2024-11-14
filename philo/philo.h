@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 12:06:35 by dhuss             #+#    #+#             */
-/*   Updated: 2024/11/14 12:06:37 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/11/14 13:21:50 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,18 @@ typedef struct s_philo
 
 struct s_table
 {
-	long	nbr_philos;
-	long	time_to_die;
-	long	time_to_eat;
-	long	time_to_sleep;
-	long	nbr_meals;
-	long	start_time;
-	bool	philo_died;
-	t_fork  *forks;
-	t_philo *philos;
+	int			counter;
+	long		nbr_philos;
+	long		time_to_die;
+	long		time_to_eat;
+	long		time_to_sleep;
+	long		nbr_meals;
+	long		start_time;
+	bool		philo_died;
+	bool		threads_ready;
+	pthread_t	monitor;
+	t_fork		*forks;
+	t_philo		*philos;
 };
 
 int	parser(t_table *table, char **argv);

@@ -1,4 +1,5 @@
 
+
 #include "philo.h"
 
 //--desynchronise_philos--//
@@ -70,7 +71,7 @@
 
 // release the forks
 //  UNLOCK both forks
-//  
+//
 
 //------status----------//
 // add write_lock in h.
@@ -96,17 +97,26 @@
 //------custom usleep------//
 // 1:20
 
+void	wait_for_threads(t_table *table) // not correct
+{
+	while(table->counter < table->nbr_philos)
+		;
+}
 //-------waiting for all threads-------//
 //  loop ( while all the threads are not ready)
 //     ;
 
+int	spagethi_time(t_table *table)
+{
+
+}
 //----------dinner simulation (spagethi time)----------//
 //  wait for all threads --> extra function && bool in .h
 //  synchronise start
 //  set_long last_meal time(mutex);
 //  counter that tracks the amount of threads (with mutex)
 //  -> desynchronise philos
-//      
+//
 //  loop (as long as the simulation is not finished)
 //      if a philo is not hungry break the loop
 //      -> eat
@@ -128,7 +138,7 @@
 //  the function is monitor_dinner
 
 //simulation start
-// -> get the time 
+// -> get the time
 // -> set all threads ready bool to ture (add in table struct) -> by referenceing waiting for all threads
 // synchronise the beginning
 //    so that every philos starts together
@@ -149,7 +159,27 @@
 
 
 
-int dinner(t_table *table)
+int	dinner(t_table *table)
 {
+	int	i;
+
+	i = 0;
+	if (table->nbr_meals == 0)
+		return (-1);
+	if (table->nbr_philos == 1)
+		// call single philo
+	while (i < table->nbr_philos)
+	{
+		if (pthread_create(table->philos->thread_id, NULL, /* dinner_simulation */, NULL) == -1)
+			return (-1);
+		i++;
+	}
+	wait_for_threads(table);
+	if (table->threads_ready = true)
+		spagethi_time(table);
+	// function to search for dead philos
+
+	// ---- start simulation ----//
+	// get time
 
 }
