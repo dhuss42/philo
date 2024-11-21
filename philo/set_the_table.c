@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 12:06:56 by dhuss             #+#    #+#             */
-/*   Updated: 2024/11/14 12:57:35 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/11/21 12:51:24 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	set_philo(t_table *table)
 		table->philos->hungry = true;
 		table->philos->meals_eaten = 0;
 		table->philos->table = table;
+		table->philo_died = false;
+		table->threads_ready = false;
 		distribute_forks(table->philos, table->forks, i);
 		i++;
 	}

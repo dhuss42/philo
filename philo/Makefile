@@ -6,7 +6,7 @@
 #    By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/14 12:07:15 by dhuss             #+#    #+#              #
-#    Updated: 2024/11/14 12:07:16 by dhuss            ###   ########.fr        #
+#    Updated: 2024/11/21 12:44:38 by dhuss            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,9 @@ CFLAGS = -Werror -Wextra -Wall
 CFILES = main.c\
 	parser.c\
 	set_the_table.c\
-	error_handling.c
+	dinner.c\
+	error_handling.c\
+
 OBJ_DIR = obj
 OFILES =$(CFILES:%.c=$(OBJ_DIR)/%.o)
 NAME = philo

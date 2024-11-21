@@ -1,6 +1,24 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   dinner.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/21 12:45:19 by dhuss             #+#    #+#             */
+/*   Updated: 2024/11/21 12:56:58 by dhuss            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "philo.h"
+
+long	get_current_time(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return (tv.tv_sec + 1000 + tv.tv_usec / 1000);
+}
 
 //--desynchronise_philos--//
 // if system contains even nbr of philos
@@ -33,6 +51,43 @@
 //  return true
 // wrap in mutex
 
+bool	check_philo_died(t_philo *philo)
+{
+	t_table	*table;
+
+	table = philo->table;
+	pthread_mutex_lock(&table->philos->table->forks->fork);
+	if (get_current_time() - philo->last_meal > table->time_to_die)
+	{
+		table->philo_died = true;
+		printf("Philosopher has died.\n");
+		pthread_mutex_unlock(&table->philos->table->forks->fork);
+		return (true);
+	}
+	pthread_mutex_unlock(&table->philos->table->forks->fork);
+	return (false);
+}
+
+void	*monitor_dinner(void *arg)
+{
+	t_table	*table;
+	int	i;
+
+	table = (t_table *)arg;
+	while(!table->philo_died)
+	{
+		i = 0;
+		while (i < table->nbr_philos)
+		{
+			if (check_philo_died(&table->philos[i]))
+				return (NULL);
+			i++;
+		}
+		usleep(1000); // not sure
+	}
+	return (NULL);
+}
+
 //-----monitor_dinner-----// (doctor)
 // make sure all philos are running
 // -> while (!all threads running)
@@ -52,6 +107,25 @@
 // if t_think is negative
 //      t_think = 0;
 // -> custom ussleep(t_think * 42) (avoids double think by forcing philo to think and give opportunty for other philo to take the forkleaves 58% up to the system)
+
+/* void	eat(t_philo *philo)
+{
+	t_table	*table;
+
+	table = philo->table;
+	pthread_mutex_lock(&philo->left_fork->fork);
+	status_update(philo, "has taken left fork");
+	pthread_mutex_lock(&philo->right_fork->fork);
+	status_update(philo, "has taken right fork");
+
+	stauts_update(philo, "is eating");
+	philo->last_meal = get_current_time();
+	philo->meals_eaten++;
+	if (philo->meals_eaten = table->nbr_meals)
+		// //  -> setter function philo hungry to false
+	pthread_mutex_unlock(&philo->right_fork->fork);
+	pthread_mutex_unlock(&philo->left_fork->fork);
+} */
 
 //------eat------//
 // grab the forks left and right
@@ -99,17 +173,28 @@
 
 void	wait_for_threads(t_table *table) // not correct
 {
+	int	i;
+
+	i = 0;
 	while(table->counter < table->nbr_philos)
-		;
+	{
+		pthread_join(table->philos[i].thread_id, NULL);
+		i++;
+	}
+	// pthread_join(table->monitor, NULL);
 }
-//-------waiting for all threads-------//
-//  loop ( while all the threads are not ready)
-//     ;
 
-int	spagethi_time(t_table *table)
+
+/* int	spagethi_time(t_philo *philo)
 {
+	// desync philos
 
-}
+	while (!philo->table->philo_died)
+	{
+		// eat
+
+	}
+} */
 //----------dinner simulation (spagethi time)----------//
 //  wait for all threads --> extra function && bool in .h
 //  synchronise start
@@ -157,7 +242,19 @@ int	spagethi_time(t_table *table)
 //  mutex_unlock
 
 
-
+void	philo_simulation(t_table *table)
+{
+	printf("test waiting\n");
+	while (!table->threads_ready)
+	{
+		usleep(100);
+	}
+	printf("philos are ready\n");
+	while(!table->philo_died)
+	{
+		// spagethi_time(philo->table);
+	}
+}
 
 int	dinner(t_table *table)
 {
@@ -170,16 +267,17 @@ int	dinner(t_table *table)
 		// call single philo
 	while (i < table->nbr_philos)
 	{
-		if (pthread_create(table->philos->thread_id, NULL, /* dinner_simulation */, NULL) == -1)
+		if (pthread_create(&table->philos->thread_id, NULL, &philo_simulation, NULL) != 0)
 			return (-1);
 		i++;
 	}
-	wait_for_threads(table);
-	if (table->threads_ready = true)
-		spagethi_time(table);
-	// function to search for dead philos
 
-	// ---- start simulation ----//
-	// get time
+
+	// if (pthread_create(&table->monitor, NULL, monitor_dinner, table) != 0)
+	// 	return (-1);
+	printf("TEST\n");
+	table->threads_ready = true;
+	wait_for_threads(table);
+	return (0);
 
 }
