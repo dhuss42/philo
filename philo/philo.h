@@ -39,11 +39,12 @@ typedef struct s_philo
 {
     int     id;
     long    meals_eaten; // for optional variable
-    bool    hungry;
+    bool    full;
     long    last_meal; // time passed from last meal
     t_fork  *left_fork;
     t_fork  *right_fork;
     pthread_t   thread_id;
+    t_mtx   philo_mutex;
     t_table *table;
 } t_philo;
 
@@ -56,13 +57,23 @@ struct s_table
     long    nbr_meals;
     long    start_time;
     bool    philo_died;
+    bool    threads_ready;
+    int     ready_count;
+    t_mtx   table_mutex;
+    t_mtx   write_mutex;
     t_fork  *forks;
     t_philo *philos;
+    pthread_t   doctor;
 };
 
 int     parser(t_table *table, char **argv);
 int    set_the_table(t_table *table);
-
+int dinner(t_table *table);
 void    error_handling(char *str, char *error_msg);
+
+int    set_bool(t_mtx *mutex, bool *dest, bool value);
+bool   get_bool(t_mtx *mutex, bool *value);
+long   get_long(t_mtx *mutex, long *value);
+long    set_long(t_mtx *mutex, long *dest, long value);
 
 #endif

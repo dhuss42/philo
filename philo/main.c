@@ -11,7 +11,8 @@ int main(int argc, char *argv[])
             return (-1);
         if (set_the_table(&table) == -1)
             return (-1);
-
+        if (dinner(&table) == -1)
+            return (-1);
         //  looping
         
         //  clean if 1 philo dies or everyone is full

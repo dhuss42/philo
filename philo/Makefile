@@ -4,6 +4,8 @@ CFLAGS = -Werror -Wextra -Wall
 CFILES = main.c\
 	parser.c\
 	set_the_table.c\
+	dinner.c\
+	getters_setters.c\
 	error_handling.c
 OBJ_DIR = obj
 OFILES =$(CFILES:%.c=$(OBJ_DIR)/%.o)
@@ -23,12 +25,12 @@ $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 
 clean:
 	@echo "\033[33m cleaning philo files \033[0m"
-	@rm -f $(OFILES)
+	@rm -f $(OBJ_DIR)/$(OFILES)
 	@rm -rf $(OBJ_DIR)
 	
 fclean: 
 	@echo "\033[33m fcleaning philo files \033[0m"
-	@rm -f $(OFILES)
+	@rm -f $(OBJ_DIR)/$(OFILES)
 	@rm -rf $(OBJ_DIR)
 	@rm -f $(NAME)
 
