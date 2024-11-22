@@ -27,6 +27,7 @@ void    set_philo(t_table *table)
         table->philos[i].full = false;
         table->philos[i].meals_eaten = 0;
         table->philos[i].table = table;
+        table->philo_died = false;
         pthread_mutex_init(&table->philos[i].philo_mutex, NULL);
         distribute_forks(&table->philos[i], table->forks, i);
         i++;
@@ -41,6 +42,7 @@ int    set_the_table(t_table *table)
     table->philo_died = false;
     table->threads_ready = false;
     table->ready_count = 0;
+    table->finished = false;
     table->philos = malloc(sizeof(t_philo) * (table->nbr_philos)); // NULL terminate?
     if (!table->philos)
         return (error_handling("table->philos", "allocation failure"), -1);
