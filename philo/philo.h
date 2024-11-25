@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/14 12:06:35 by dhuss             #+#    #+#             */
+/*   Updated: 2024/11/25 11:10:12 by dhuss            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
@@ -13,15 +24,15 @@
 #include <limits.h>
 
 //----------------colors--------------//
-#define RESET       "\033[0m"
-#define BLACK       "\033[30m"
-#define RED         "\033[31m"
-#define GREEN       "\033[32m"
-#define YELLOW      "\033[33m"
-#define BLUE        "\033[34m"
-#define MAGENTA     "\033[35m"
-#define CYAN        "\033[36m"
-#define WHITE       "\033[37m"
+#define RESET	   "\033[0m"
+#define BLACK	   "\033[30m"
+#define RED		 "\033[31m"
+#define GREEN	   "\033[32m"
+#define YELLOW	  "\033[33m"
+#define BLUE		"\033[34m"
+#define MAGENTA	 "\033[35m"
+#define CYAN		"\033[36m"
+#define WHITE	   "\033[37m"
 
 // struct that holds the info
 
@@ -31,8 +42,8 @@ typedef struct s_table t_table;
 
 typedef struct s_fork
 {
-    t_mtx   fork;
-    int     fork_id;
+	t_mtx   fork;
+	int	 fork_id;
 } t_fork;
 
 typedef struct s_philo
@@ -76,6 +87,7 @@ void    *monitor_dinner(void *arg);
 
 void    set_start_time(t_table *table);
 long    time_stamp(long    start_time);
+void	custom_usleep(long duration);
 
 void    think(t_philo *philo);
 void    custom_sleep(t_philo *philo);
@@ -87,6 +99,6 @@ bool    get_bool(t_mtx *mutex, bool *value);
 long    get_long(t_mtx *mutex, long *value);
 long    set_long(t_mtx *mutex, long *dest, long value);
 
-void    error_handling(char *str, char *error_msg);
+void	error_handling(char *str, char *error_msg);
 
 #endif

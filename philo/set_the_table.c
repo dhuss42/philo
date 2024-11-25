@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   set_the_table.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/14 12:06:56 by dhuss             #+#    #+#             */
+/*   Updated: 2024/11/25 14:46:42 by dhuss            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 
-void    distribute_forks(t_philo *philo, t_fork *forks, int position)
+void	distribute_forks(t_philo *philo, t_fork *forks, int position)
 {
     philo->left_fork = &forks[position];
     philo->right_fork = &forks[(position + 1) % philo->table->nbr_philos];
@@ -16,9 +28,9 @@ void    distribute_forks(t_philo *philo, t_fork *forks, int position)
 // function to distribute forks in a circular manner
 // for even numbered philos the distribution is reversed to avoid deadlock
 
-void    set_philo(t_table *table)
+void	set_philo(t_table *table)
 {
-    int i;
+	int i;
 
     i = 0;
     while (i < table->nbr_philos)
@@ -28,15 +40,16 @@ void    set_philo(t_table *table)
         table->philos[i].meals_eaten = 0;
         table->philos[i].table = table;
         table->philo_died = false;
+		table->philos[i].last_meal = table->time_to_eat / 1000;
         pthread_mutex_init(&table->philos[i].philo_mutex, NULL);
         distribute_forks(&table->philos[i], table->forks, i);
         i++;
     }
 }
 
-int    set_the_table(t_table *table)
+int	set_the_table(t_table *table)
 {
-    int i;
+	int i;
 
     i = 0;
     table->philo_died = false;
@@ -64,15 +77,15 @@ int    set_the_table(t_table *table)
     return (0);
 }
 
-    // allocate philos
-    // allocate forks
-    // init mutex forks
-        // forks are mutexes, which means they can only be accessed by one philo at a time
-    // init philos
-        // loop
-        // philo id = i + 1
-        // philo full = false
-        // philo meals counter = 0
-        // philo table = table
-        // assign forks
+	// allocate philos
+	// allocate forks
+	// init mutex forks
+		// forks are mutexes, which means they can only be accessed by one philo at a time
+	// init philos
+		// loop
+		// philo id = i + 1
+		// philo full = false
+		// philo meals counter = 0
+		// philo table = table
+		// assign forks
 

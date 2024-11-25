@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/14 12:07:19 by dhuss             #+#    #+#             */
+/*   Updated: 2024/11/25 10:10:25 by dhuss            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "philo.h"
 
-int main(int argc, char *argv[])
+int	main(int argc, char *argv[])
 {
-    t_table table;
+	t_table table;
 
     if (argc == 5 || argc == 6)
     {
@@ -14,7 +25,7 @@ int main(int argc, char *argv[])
         if (dinner(&table) == -1)
             return (-1);
         //  looping
-        
+
         //  clean if 1 philo dies or everyone is full
     }
     else
@@ -23,3 +34,9 @@ int main(int argc, char *argv[])
 }
 
 // might have to implement return statements to the main function as exit is not allowed
+
+// [nbr_philo]
+// [time_to_die]
+// [time_to_eat]
+// [time_to_sleep]
+// [nbr_meals]

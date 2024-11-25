@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   dinner.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/21 12:45:19 by dhuss             #+#    #+#             */
+/*   Updated: 2024/11/25 14:10:18 by dhuss            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "philo.h"
 
@@ -26,7 +37,7 @@ void    desync(t_philo *philo)
     if (table->nbr_philos % 2 == 0)
     {
         if (philo->id % 2 == 0)
-            usleep(30000);
+            usleep(30000); //
     }
     else
     {
@@ -49,6 +60,7 @@ void *spagethi_time(void *arg)
 
     philo = (t_philo *)arg;
     pthread_mutex_lock(&philo->table->table_mutex);
+	printf("philo: adress table %p\n", philo->table);
     philo->table->ready_count++;
     printf(GREEN"ready_count: %d\n"WHITE, philo->table->ready_count);
     if (philo->table->ready_count == philo->table->nbr_philos)
@@ -58,9 +70,9 @@ void *spagethi_time(void *arg)
     pthread_mutex_unlock(&philo->table->table_mutex);
     wait_threads(philo->table);
     // set last_meal_time ??
-    desync(philo);
+    // desync(philo);
 
-    printf("Philosopher %d started at elapsed time: %ld ms\n", philo->id, time_stamp(philo->table->start_time));
+    // printf("Philosopher %d started at elapsed time: %ld ms\n", philo->id, time_stamp(philo->table->start_time));
     // printf("threads ready\n");
     while (!philo->table->philo_died)
     {
@@ -77,12 +89,12 @@ void *spagethi_time(void *arg)
 //---------//
 // philo threads run through this function
 // threads wait until all threads are ready
-//      lock mutex, add to counter, 
+//      lock mutex, add to counter,
 //      if counter = nbr of philos -> threads_ready true
 //      unlock mutex
 //      calls threads wait until threads_ready is set to true
 // calls desync threads
-//      
+//
 // loop through routine until a philo is dead
 //      if a philo has eaten nbr_meals times break;
 //      calls eat
@@ -113,11 +125,12 @@ int dinner(t_table *table)
         }
     }
     set_start_time(table);
-    pthread_create(&table->doctor, NULL, monitor_dinner, &table);
+    if (pthread_create(&table->doctor, NULL, monitor_dinner, table) != 0)
+		return (-1);
     int j = 0;
     while (j < table->nbr_philos)
     {
-        pthread_join(table->philos[j].thread_id, NULL);    
+        pthread_join(table->philos[j].thread_id, NULL);
         j++;
     }
     pthread_join(table->doctor, NULL);
@@ -128,7 +141,7 @@ int dinner(t_table *table)
 
 
 // ---------- //
-// checks if nbr of meals is smaller or equal to 0 
+// checks if nbr of meals is smaller or equal to 0
 //  if so returns
 // checks if there is only 1 philo
 //  if so special case
