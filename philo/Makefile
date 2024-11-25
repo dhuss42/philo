@@ -6,7 +6,7 @@
 #    By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/14 12:07:15 by dhuss             #+#    #+#              #
-#    Updated: 2024/11/21 12:44:38 by dhuss            ###   ########.fr        #
+#    Updated: 2024/11/25 10:05:46 by dhuss            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,11 @@ CFILES = main.c\
 	parser.c\
 	set_the_table.c\
 	dinner.c\
-	error_handling.c\
-
+	monitor.c\
+	time.c\
+	philo_routine.c\
+	getters_setters.c\
+	error_handling.c
 OBJ_DIR = obj
 OFILES =$(CFILES:%.c=$(OBJ_DIR)/%.o)
 NAME = philo
@@ -36,12 +39,12 @@ $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 
 clean:
 	@echo "\033[33m cleaning philo files \033[0m"
-	@rm -f $(OFILES)
+	@rm -f $(OBJ_DIR)/$(OFILES)
 	@rm -rf $(OBJ_DIR)
 
 fclean:
 	@echo "\033[33m fcleaning philo files \033[0m"
-	@rm -f $(OFILES)
+	@rm -f $(OBJ_DIR)/$(OFILES)
 	@rm -rf $(OBJ_DIR)
 	@rm -f $(NAME)
 
