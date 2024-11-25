@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 12:06:35 by dhuss             #+#    #+#             */
-/*   Updated: 2024/11/25 10:05:55 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/11/25 11:10:12 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void    *monitor_dinner(void *arg);
 
 void    set_start_time(t_table *table);
 long    time_stamp(long    start_time);
+void	custom_usleep(long duration);
 
 void    think(t_philo *philo);
 void    custom_sleep(t_philo *philo);

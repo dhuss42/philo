@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 12:07:19 by dhuss             #+#    #+#             */
-/*   Updated: 2024/11/25 10:05:31 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/11/25 10:10:25 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,3 +34,9 @@ int	main(int argc, char *argv[])
 }
 
 // might have to implement return statements to the main function as exit is not allowed
+
+// [nbr_philo]
+// [time_to_die]
+// [time_to_eat]
+// [time_to_sleep]
+// [nbr_meals]

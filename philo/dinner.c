@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 12:45:19 by dhuss             #+#    #+#             */
-/*   Updated: 2024/11/25 10:05:16 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/11/25 14:10:18 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void    desync(t_philo *philo)
     if (table->nbr_philos % 2 == 0)
     {
         if (philo->id % 2 == 0)
-            usleep(30000);
+            usleep(30000); //
     }
     else
     {
@@ -60,6 +60,7 @@ void *spagethi_time(void *arg)
 
     philo = (t_philo *)arg;
     pthread_mutex_lock(&philo->table->table_mutex);
+	printf("philo: adress table %p\n", philo->table);
     philo->table->ready_count++;
     printf(GREEN"ready_count: %d\n"WHITE, philo->table->ready_count);
     if (philo->table->ready_count == philo->table->nbr_philos)
@@ -69,9 +70,9 @@ void *spagethi_time(void *arg)
     pthread_mutex_unlock(&philo->table->table_mutex);
     wait_threads(philo->table);
     // set last_meal_time ??
-    desync(philo);
+    // desync(philo);
 
-    printf("Philosopher %d started at elapsed time: %ld ms\n", philo->id, time_stamp(philo->table->start_time));
+    // printf("Philosopher %d started at elapsed time: %ld ms\n", philo->id, time_stamp(philo->table->start_time));
     // printf("threads ready\n");
     while (!philo->table->philo_died)
     {
@@ -124,7 +125,8 @@ int dinner(t_table *table)
         }
     }
     set_start_time(table);
-    pthread_create(&table->doctor, NULL, monitor_dinner, &table);
+    if (pthread_create(&table->doctor, NULL, monitor_dinner, table) != 0)
+		return (-1);
     int j = 0;
     while (j < table->nbr_philos)
     {

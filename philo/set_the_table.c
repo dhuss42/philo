@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 12:06:56 by dhuss             #+#    #+#             */
-/*   Updated: 2024/11/25 10:06:04 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/11/25 14:46:42 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	set_philo(t_table *table)
         table->philos[i].meals_eaten = 0;
         table->philos[i].table = table;
         table->philo_died = false;
+		table->philos[i].last_meal = table->time_to_eat / 1000;
         pthread_mutex_init(&table->philos[i].philo_mutex, NULL);
         distribute_forks(&table->philos[i], table->forks, i);
         i++;
