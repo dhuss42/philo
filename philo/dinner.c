@@ -60,9 +60,9 @@ void *spagethi_time(void *arg)
 
     philo = (t_philo *)arg;
     pthread_mutex_lock(&philo->table->table_mutex);
-	printf("philo: adress table %p\n", philo->table);
+	// printf("philo: adress table %p\n", philo->table);
     philo->table->ready_count++;
-    printf(GREEN"ready_count: %d\n"WHITE, philo->table->ready_count);
+    // printf(GREEN"ready_count: %d\n"WHITE, philo->table->ready_count);
     if (philo->table->ready_count == philo->table->nbr_philos)
     {
         philo->table->threads_ready = true;
@@ -74,9 +74,11 @@ void *spagethi_time(void *arg)
 
     // printf("Philosopher %d started at elapsed time: %ld ms\n", philo->id, time_stamp(philo->table->start_time));
     // printf("threads ready\n");
-    while (!philo->table->philo_died)
+    while (!get_bool(&philo->table->table_mutex, &philo->table->finished))
     {
-        if (philo->full)
+        if (get_bool(&philo->philo_mutex, &philo->full))
+            break ;
+        if (get_bool(&philo->philo_mutex, &philo->dead))
             break ;
         eat(philo);
         custom_sleep(philo);
@@ -109,22 +111,24 @@ int dinner(t_table *table)
     i = 0;
     if (table->nbr_meals <= 0)
         return (-1);
-    // else if (table->nbr_philos == 1)
-    //     // single philo function
+    else if (table->nbr_philos == 1)
+    {
+        if (pthread_create(&table->philos[0].thread_id, NULL, single_philo, &table->philos[0]) != 0)
+            return (-1);
+    }
     else
     {
         while (i < table->nbr_philos)
         {
             table->philos[i].table = table;
             if (pthread_create(&table->philos[i].thread_id, NULL, spagethi_time, &table->philos[i]) != 0)
-            {
                 return (-1);
-            }
-            printf("created philo %d\n", i);
             i++;
         }
     }
+    handle_mutex_lock(&table->table_mutex, LOCK);
     set_start_time(table);
+    handle_mutex_lock(&table->table_mutex, UNLOCK);
     if (pthread_create(&table->doctor, NULL, monitor_dinner, table) != 0)
 		return (-1);
     int j = 0;

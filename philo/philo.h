@@ -79,11 +79,19 @@ struct s_table
     pthread_t   doctor;
 };
 
+typedef enum e_router
+{
+    LOCK,
+    UNLOCK,
+}   t_router;
+
 int     parser(t_table *table, char **argv);
 int     set_the_table(t_table *table);
 int     dinner(t_table *table);
 
+void    *single_philo(void *arg);
 void    *monitor_dinner(void *arg);
+void    wait_threads(t_table *table);
 
 void    set_start_time(t_table *table);
 long    time_stamp(long    start_time);
@@ -98,6 +106,7 @@ int     set_bool(t_mtx *mutex, bool *dest, bool value);
 bool    get_bool(t_mtx *mutex, bool *value);
 long    get_long(t_mtx *mutex, long *value);
 long    set_long(t_mtx *mutex, long *dest, long value);
+void    handle_mutex_lock(t_mtx *mutex, int router);
 
 void	error_handling(char *str, char *error_msg);
 

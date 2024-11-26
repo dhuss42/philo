@@ -56,6 +56,7 @@ int	set_the_table(t_table *table)
     table->threads_ready = false;
     table->ready_count = 0;
     table->finished = false;
+    table->start_time = 0;
     table->philos = malloc(sizeof(t_philo) * (table->nbr_philos)); // NULL terminate?
     if (!table->philos)
         return (error_handling("table->philos", "allocation failure"), -1);

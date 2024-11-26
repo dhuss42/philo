@@ -16,21 +16,24 @@ void	write_status(t_philo *philo, const char *status)
 {
 	long elapsed_time;
 
-	printf(GREEN"locking philo mutex in write_status\n"WHITE);
+	// printf(GREEN"locking philo mutex in write_status\n"WHITE);
+	handle_mutex_lock(&philo->table->table_mutex, LOCK);
+	elapsed_time = time_stamp(philo->table->start_time);
+	handle_mutex_lock(&philo->table->table_mutex, UNLOCK);
 	pthread_mutex_lock(&philo->philo_mutex);
 	if (philo->full /* || get_bool(&philo->table->table_mutex, &philo->table->philo_died) */)
 	{
-		printf(RED"Philsopher %d is full or has died\n"WHITE, philo->id);
+		// printf(RED"Philsopher %d is full or has died\n"WHITE, philo->id);
 		pthread_mutex_unlock(&philo->philo_mutex);
 		return ;
 	}
-	elapsed_time = time_stamp(philo->table->start_time);
 	pthread_mutex_unlock(&philo->philo_mutex);
-	printf(YELLOW"unlock philo mutex in write_status\n"WHITE);
+	
+	// printf(YELLOW"unlock philo mutex in write_status\n"WHITE);
 
 	// printf(YELLOW"locking write mutex\n"WHITE);
 	pthread_mutex_lock(&philo->table->write_mutex);
-	printf("[%ld ms] Philosopher %d %s\n", elapsed_time, philo->id, status);
+	printf("%ld %d %s\n", elapsed_time, philo->id, status);
 	pthread_mutex_unlock(&philo->table->write_mutex);
 	// printf(GREEN"unlocking write mutex\n"WHITE);
 }
@@ -47,25 +50,26 @@ void	eat(t_philo *philo)
 {
 	if (philo->id % 2 == 0)
 	{
-		pthread_mutex_lock(&philo->left_fork->fork);
-		// write_status(philo, "has taken the left fork");
-		pthread_mutex_lock(&philo->right_fork->fork);
-		// write_status(philo, "has taken the right fork");
+		handle_mutex_lock(&philo->left_fork->fork, LOCK);
+		// pthread_mutex_lock(&philo->left_fork->fork);
+		write_status(philo, "has taken a fork");
+		handle_mutex_lock(&philo->right_fork->fork, LOCK);
+		write_status(philo, "has taken a fork");
 	}
 	else
 	{
-		pthread_mutex_lock(&philo->right_fork->fork);
-		// write_status(philo, "has taken the right fork");
-		pthread_mutex_lock(&philo->left_fork->fork);
-		// write_status(philo, "has taken the left fork");
+		handle_mutex_lock(&philo->right_fork->fork, LOCK);
+		write_status(philo, "has taken a fork");
+		handle_mutex_lock(&philo->left_fork->fork, LOCK);
+		write_status(philo, "has taken a fork");
 	}
 	pthread_mutex_lock(&philo->philo_mutex);
-	printf(GREEN"philo mutex lock in eat\n"WHITE);
+	// printf(GREEN"philo mutex lock in eat\n"WHITE);
 	philo->last_meal = time_stamp(philo->table->start_time);
-	printf(RED"last meal time in philo %ld\n"WHITE, philo->last_meal);
+	// printf(RED"last meal time in philo %ld\n"WHITE, philo->last_meal);
 	philo->meals_eaten++;
 	pthread_mutex_unlock(&philo->philo_mutex);
-	printf(YELLOW"philo mutex unlock in eat\n"WHITE);
+	// printf(YELLOW"philo mutex unlock in eat\n"WHITE);
 	write_status(philo, "is eating");
 	custom_usleep(philo->table->time_to_eat / 1000);
 	pthread_mutex_unlock(&philo->right_fork->fork);
@@ -73,7 +77,7 @@ void	eat(t_philo *philo)
 	pthread_mutex_lock(&philo->philo_mutex);
 	if (philo->meals_eaten == philo->table->nbr_meals)
 	{
-		set_bool(&philo->philo_mutex, &philo->full, true);
+		philo->full = true;
 	}
 	pthread_mutex_unlock(&philo->philo_mutex);
 }
@@ -91,9 +95,9 @@ void	eat(t_philo *philo)
 
 void	custom_sleep(t_philo *philo)
 {
-	t_table *table;
+	// t_table *table;
 
-	table = philo->table;
+	// table = philo->table;
 	write_status(philo, "is sleeping");
 	// long start_sleep = time_stamp(table->start_time);
 	custom_usleep(philo->table->time_to_sleep / 1000);
@@ -119,7 +123,7 @@ void	think(t_philo *philo)
 	think_time = (table->time_to_eat * 2) - table->time_to_sleep;
 	if (think_time < 0)
 		think_time = 0;
-	custom_usleep(think_time / 1000);
+	custom_usleep((think_time / 1000) * 0.5);
 	// printf("Philosopher %d thought for %ld ms\n", philo->id, think_time);
 }
 

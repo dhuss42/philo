@@ -33,10 +33,17 @@ int	main(int argc, char *argv[])
     return (0);
 }
 
-// might have to implement return statements to the main function as exit is not allowed
-
 // [nbr_philo]
 // [time_to_die]
 // [time_to_eat]
 // [time_to_sleep]
 // [nbr_meals]
+
+// 1 800 200 200
+// --> Deadlock
+// 5 800 200 200
+// --> passes (no philo should die)
+// 5 800 200 200 7
+// --> not all philos eat seven times
+// 4 410 200 200
+// --> passes (no philos should die)

@@ -17,32 +17,24 @@ bool	philo_died(t_philo *philo)
 {
 	long	elapsed_time;
 
-	// printf(GREEN"philo mutex lock in philo died\n"WHITE);
-	pthread_mutex_lock(&philo->philo_mutex); // table, philo mutex locked
-	if (philo->full/*  || get_bool(&philo->table->table_mutex, &philo->table->philo_died) */)
-	{
-		// printf("TEst1\n");
+	handle_mutex_lock(&philo->table->table_mutex, LOCK);
+	elapsed_time = time_stamp(philo->table->start_time);
+	handle_mutex_lock(&philo->table->table_mutex, UNLOCK);
 
-		pthread_mutex_unlock(&philo->philo_mutex); // table locked / philo unlocked
-		// printf(YELLOW"philo mutex unlock in philo died\n"WHITE);
+	pthread_mutex_lock(&philo->philo_mutex); 
+	if (philo->full)
+	{
+		pthread_mutex_unlock(&philo->philo_mutex);
 		return (false);
 	}
-	elapsed_time = time_stamp(philo->table->start_time);
-	// printf(CYAN"elapsed_time %ld\n", elapsed_time);
-	// printf(CYAN"philo last meal %ld\n", philo->last_meal);
-	// printf(CYAN"time to die %ld\n", philo->table->time_to_die / 1000);
-	// printf(CYAN"%ld - %ld > %ld\n"WHITE, elapsed_time, philo->last_meal, philo->table->time_to_die / 1000);
 	if (elapsed_time - philo->last_meal > philo->table->time_to_die / 1000)
 	{
-		printf(MAGENTA"TEST\n"WHITE);
+		// printf(MAGENTA"philo died\n"WHITE);
 		philo->dead = true;
-		pthread_mutex_unlock(&philo->philo_mutex); // table locked / philo unlocked
-		// printf(YELLOW"philo mutex unlock in philo died\n"WHITE);
+		pthread_mutex_unlock(&philo->philo_mutex);
 		return (true);
 	}
-	// printf("TEst2\n");
-	pthread_mutex_unlock(&philo->philo_mutex); // table locked / philo unlocked
-	// printf(YELLOW"philo mutex unlock in philo died\n"WHITE);
+	pthread_mutex_unlock(&philo->philo_mutex);
 	return (false);
 }
 
@@ -65,38 +57,28 @@ bool	all_threads_running(t_table *table)
 void	*monitor_dinner(void *arg)
 {
 	t_table *table;
-	// bool	all_full;
 	int i;
 
 	table = (t_table *)arg;
-	printf(MAGENTA"created monitor\n"WHITE);
 	while (!all_threads_running(table))
 		usleep(10);
 
-	printf(MAGENTA"all threads are running\n"WHITE);
 	while (!table->finished)
 	{
 		i = 0;
 		while (i < table->nbr_philos)
 		{
-
-			pthread_mutex_lock(&table->table_mutex); // table mutex locked
 			if (philo_died(&table->philos[i]))
 			{
-				printf(MAGENTA"TEST2\n"WHITE);
 				write_status(table->philos, "died");
-				pthread_mutex_unlock(&table->table_mutex); // table unlocked
-				return (NULL) ; // maybe return?
+				set_bool(&table->table_mutex, &table->finished, true);
 			}
-			pthread_mutex_unlock(&table->table_mutex); // table unlocked
 			if (get_bool(&table->philos->philo_mutex, &table->philos->full) == true)
 			{
-				printf("philo is full\n");
-				return (NULL);
+				set_bool(&table->table_mutex, &table->finished, true);
 			}
 			i++;
 		}
-		// exit(EXIT_SUCCESS);
 		usleep(10);
 	}
 	return (NULL);

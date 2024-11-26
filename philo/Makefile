@@ -11,15 +11,17 @@
 # **************************************************************************** #
 
 CC = cc
-# CFLAGS = -Werror -Wextra -Wall -g
-CFLAGS = -Werror -Wextra -Wall -g -fsanitize=thread
+CFLAGS = -Werror -Wextra -Wall -g
+# CFLAGS = -Werror -Wextra -Wall -g -fsanitize=thread
 CFILES = main.c\
 	parser.c\
 	set_the_table.c\
 	dinner.c\
 	monitor.c\
+	single_philo.c\
 	time.c\
 	philo_routine.c\
+	safe_mutex.c\
 	getters_setters.c\
 	error_handling.c
 OBJ_DIR = obj

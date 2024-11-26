@@ -34,7 +34,7 @@ void	set_start_time(t_table *table)
 		// call error
 	}
 	table->start_time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
-	printf("start_time %ld\n", table->start_time);
+	// printf("start_time %ld\n", table->start_time);
 }
 //--------//
 // gets time of day
