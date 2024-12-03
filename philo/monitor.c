@@ -6,10 +6,9 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 10:08:19 by dhuss             #+#    #+#             */
-/*   Updated: 2024/11/25 16:09:10 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/12/03 15:15:31 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "philo.h"
 
@@ -49,11 +48,10 @@ bool	all_threads_running(t_table *table)
 	return (false);
 }
 
-
 void	*monitor_dinner(void *arg)
 {
-	t_table *table;
-	int i;
+	t_table	*table;
+	int		i;
 
 	table = (t_table *)arg;
 	while (!all_threads_running(table))
@@ -68,15 +66,13 @@ void	*monitor_dinner(void *arg)
 				write_status(table->philos, "died");
 				set_bool(&table->table_mutex, &table->finished, true);
 			}
-			if (get_bool(&table->philos->philo_mutex, &table->philos->full) == true)
-			{
-				set_bool(&table->table_mutex, &table->finished, true);
-			}
+			handle_mutex_lock(&table->table_mutex, LOCK);
+			if (table->full_count == table->nbr_philos)
+				table->finished = true;
+			handle_mutex_lock(&table->table_mutex, UNLOCK);
 			i++;
 		}
 		usleep(10);
 	}
 	return (NULL);
 }
-
-

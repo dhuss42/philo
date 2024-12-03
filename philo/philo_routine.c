@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 10:08:26 by dhuss             #+#    #+#             */
-/*   Updated: 2024/11/25 14:40:24 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/12/03 15:40:37 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,25 @@
 
 void	write_status(t_philo *philo, const char *status)
 {
-	long elapsed_time;
+	long	elapsed_time;
 
-	// check with table simulation
+	if (get_bool(&philo->table->table_mutex, &philo->table->finished))
+		return ;
 	handle_mutex_lock(&philo->philo_mutex, LOCK);
 	if (philo->dead == true || philo->full == true)
 	{
-		printf(RED"Philo is full or dead\n"WHITE);
 		handle_mutex_lock(&philo->philo_mutex, UNLOCK);
 		return ;
 	}
 	handle_mutex_lock(&philo->philo_mutex, UNLOCK);
-	// printf(GREEN"locking philo mutex in write_status\n"WHITE);
+
 	handle_mutex_lock(&philo->table->table_mutex, LOCK);
 	elapsed_time = time_stamp(philo->table->start_time);
 	handle_mutex_lock(&philo->table->table_mutex, UNLOCK);
-	
-	// printf(YELLOW"unlock philo mutex in write_status\n"WHITE);
 
-	// printf(YELLOW"locking write mutex\n"WHITE);
 	pthread_mutex_lock(&philo->table->write_mutex);
 	printf("%ld %d %s\n", elapsed_time, philo->id, status);
 	pthread_mutex_unlock(&philo->table->write_mutex);
-	// printf(GREEN"unlocking write mutex\n"WHITE);
 }
 
 //-------------------------//
@@ -46,17 +42,42 @@ void	write_status(t_philo *philo, const char *status)
 // gets time passed since start
 // prints status message that was passed as arg
 
-
-void	eat(t_philo *philo)
+void	full_check(t_philo *philo)
 {
+	t_table	*table;
+
+	table = philo->table;
+	handle_mutex_lock(&philo->philo_mutex, LOCK);
+	if (philo->meals_eaten == table->nbr_meals)
+	{
+		philo->full = true;
+	}
+	handle_mutex_lock(&philo->philo_mutex, UNLOCK);
+	if (get_bool(&philo->philo_mutex, &philo->full))
+		increment_int(&table->table_mutex, &table->full_count);
+}
+
+int	health_check(t_philo *philo)
+{
+	t_table	*table;
+
+	table = philo->table;
+	if (get_bool(&table->table_mutex, &table->finished))
+		return (-1);
 	handle_mutex_lock(&philo->philo_mutex, LOCK);
 	if (philo->dead == true || philo->full == true)
 	{
-		printf(RED"Philo is full or dead\n"WHITE);
 		handle_mutex_lock(&philo->philo_mutex, UNLOCK);
-		return ;
+		return (-1);
 	}
 	handle_mutex_lock(&philo->philo_mutex, UNLOCK);
+	return (0);
+}
+
+void	eat(t_philo *philo)
+{
+	if (health_check(philo) == -1)
+		return ;
 	if (philo->id % 2 == 0)
 	{
 		handle_mutex_lock(&philo->left_fork->fork, LOCK);
@@ -71,23 +92,15 @@ void	eat(t_philo *philo)
 		handle_mutex_lock(&philo->left_fork->fork, LOCK);
 		write_status(philo, "has taken a fork");
 	}
-
 	handle_mutex_lock(&philo->philo_mutex, LOCK);
 	philo->last_meal = time_stamp(philo->table->start_time);
 	philo->meals_eaten++;
 	handle_mutex_lock(&philo->philo_mutex, UNLOCK);
-
 	write_status(philo, "is eating");
 	custom_usleep(philo->table->time_to_eat / 1000, philo->table);
 	handle_mutex_lock(&philo->right_fork->fork, UNLOCK);
 	handle_mutex_lock(&philo->left_fork->fork, UNLOCK);
-
-	handle_mutex_lock(&philo->philo_mutex, LOCK);
-	if (philo->meals_eaten == philo->table->nbr_meals)
-	{
-		philo->full = true; // increment counter
-	}
-	handle_mutex_lock(&philo->philo_mutex, UNLOCK);
+	full_check(philo);
 }
 
 //-------------------------//
@@ -100,46 +113,24 @@ void	eat(t_philo *philo)
 // if meals eaten is = nbr of meals
 //  set philo full to true;
 
-
 void	custom_sleep(t_philo *philo)
 {
-	// t_table *table;
-
-	handle_mutex_lock(&philo->philo_mutex, LOCK);
-	if (philo->dead == true || philo->full == true)
-	{
-		printf(RED"Philo is full or dead\n"WHITE);
-		handle_mutex_lock(&philo->philo_mutex, UNLOCK);
+	if (health_check(philo) == -1)
 		return ;
-	}
-	handle_mutex_lock(&philo->philo_mutex, UNLOCK);
-	// table = philo->table;
 	write_status(philo, "is sleeping");
-	// long start_sleep = time_stamp(table->start_time);
 	custom_usleep(philo->table->time_to_sleep / 1000, philo->table);
-	// long end_sleep = time_stamp(table->start_time);
-	// printf("Philosoper %d slept for %ld ms\n", philo->id, end_sleep - start_sleep);
 }
 
 // wirtes status sleeping
 // sleeps for time_to_sleep
 
-//------custom usleep------//
-// 1:20
-
 void	think(t_philo *philo)
 {
-	t_table *table;
+	t_table	*table;
 	long	think_time;
 
-	handle_mutex_lock(&philo->philo_mutex, LOCK);
-	if (philo->dead == true || philo->full == true)
-	{
-		printf(RED"Philo is full or dead\n"WHITE);
-		handle_mutex_lock(&philo->philo_mutex, UNLOCK);
+	if (health_check(philo) == -1)
 		return ;
-	}
-	handle_mutex_lock(&philo->philo_mutex, UNLOCK);
 	table = philo->table;
 	write_status(philo, "is thinking");
 	if (table->nbr_philos % 2 == 0)
@@ -147,8 +138,7 @@ void	think(t_philo *philo)
 	think_time = (table->time_to_eat * 2) - table->time_to_sleep;
 	if (think_time < 0)
 		think_time = 0;
-	custom_usleep((think_time / 1000) * 0.5, philo->table);
-	// printf("Philosopher %d thought for %ld ms\n", philo->id, think_time);
+	custom_usleep((think_time / 1000) * 0.5, table);
 }
 
 // writes status is thinking
@@ -156,4 +146,3 @@ void	think(t_philo *philo)
 // ---> an even numbered simulation is in itself fait
 // if not even has to think long
 // ---> need to look up why this length
-

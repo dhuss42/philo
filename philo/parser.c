@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 12:07:08 by dhuss             #+#    #+#             */
-/*   Updated: 2024/11/14 12:07:46 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/12/03 15:29:39 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,15 @@ bool	ft_isspace(char c)
 	return (false);
 }
 
-int not_a_digit(char *str)
+int	not_a_digit(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (!((str[i] >= '0' && str[i] <= '9') || str[i] == '+' || str[i] == '-' || ft_isspace(str[i])))
+		if (!((str[i] >= '0' && str[i] <= '9') || str[i] == '+'
+				|| str[i] == '-' || ft_isspace(str[i])))
 			return (-1);
 		i++;
 	}
@@ -35,8 +36,8 @@ int not_a_digit(char *str)
 
 long	ft_atol(char *str)
 {
-	int	 i;
-	int	 sign;
+	int		i;
+	int		sign;
 	long	result;
 
 	i = 0;
@@ -49,7 +50,7 @@ long	ft_atol(char *str)
 	if (str[i] == '-' || str[i] == '+')
 	{
 		if (str[i] == '-')
-		   return (error(str, E_INVALIDINPT), -1);
+			return (error(str, E_INVALIDINPT), -1);
 		i++;
 	}
 	while (str[i] >= '0' && str[i] <= '9')
@@ -66,7 +67,7 @@ long	ft_atol(char *str)
 // checks for negative values
 // converts to long and checks for INT_MAX
 
-int is_error(t_table *table)
+int	is_error(t_table *table)
 {
 	if (table->nbr_philos == -1)
 		return (-1);
@@ -84,7 +85,7 @@ int is_error(t_table *table)
 	return (0);
 }
 
-int is_lower_limit(t_table *table)
+int	is_lower_limit(t_table *table)
 {
 	if (table->time_to_die < 60000)
 		return (error("time_to_die", E_UNDERMINMS), -1);
@@ -107,11 +108,5 @@ int	parser(t_table *table, char **argv)
 		return (-1);
 	if (is_lower_limit(table) == -1)
 		return (-1);
-	printf("nbr of philos: %ld\n", table->nbr_philos);
-	printf("time_to_die: %ld\n", table->time_to_die);
-	printf("time_to_eat: %ld\n", table->time_to_eat);
-	printf("time_to_sleep: %ld\n", table->time_to_sleep);
-	if (argv[5])
-		printf("nbr of meals: %ld\n", table->nbr_meals);
 	return (0);
 }
