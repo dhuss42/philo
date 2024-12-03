@@ -11,8 +11,8 @@
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Werror -Wextra -Wall -g
-# CFLAGS = -Werror -Wextra -Wall -g -fsanitize=thread
+# CFLAGS = -Werror -Wextra -Wall -g
+CFLAGS = -Werror -Wextra -Wall -g -fsanitize=thread
 CFILES = main.c\
 	parser.c\
 	set_the_table.c\
@@ -23,7 +23,8 @@ CFILES = main.c\
 	philo_routine.c\
 	safe_mutex.c\
 	getters_setters.c\
-	error_handling.c
+	error_handling.c\
+	cleaner.c
 OBJ_DIR = obj
 OFILES =$(CFILES:%.c=$(OBJ_DIR)/%.o)
 NAME = philo

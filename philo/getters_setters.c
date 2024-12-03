@@ -14,11 +14,11 @@
 
 int	set_bool(t_mtx *mutex, bool *dest, bool value)
 {
-	pthread_mutex_lock(mutex);
-		// call error
+	if (pthread_mutex_lock(mutex) != 0)
+		return (error(NULL, E_MUTEX), -1);
 	*dest = value;
 	pthread_mutex_unlock(mutex);
-		// call error
+		return (error(NULL, E_MUTEX), -1);
 	return (0);
 }
 
@@ -26,9 +26,11 @@ bool	get_bool(t_mtx *mutex, bool *value)
 {
 	bool	ret;
 
-	pthread_mutex_lock(mutex);
+	if (pthread_mutex_lock(mutex) != 0)
+		error(NULL, E_MUTEX);
 	ret = *value;
-	pthread_mutex_unlock(mutex);
+	if (pthread_mutex_unlock(mutex) != 0)
+		error(NULL, E_MUTEX);
 	return (ret);
 }
 
@@ -36,19 +38,20 @@ long   get_long(t_mtx *mutex, long *value)
 {
 	long	ret;
 
-	pthread_mutex_lock(mutex);
+	if (pthread_mutex_lock(mutex) != 0)
+		return (error(NULL, E_MUTEX), -1);
 	ret = *value;
-	pthread_mutex_unlock(mutex);
+	if (pthread_mutex_unlock(mutex) != 0)
+		return (error(NULL, E_MUTEX), -1);
 	return (ret);
 }
 
 long	set_long(t_mtx *mutex, long *dest, long value)
 {
-	pthread_mutex_lock(mutex);
-		// call error
+	if (pthread_mutex_lock(mutex) != 0)
+		return (error(NULL, E_MUTEX), -1);
 	*dest = value;
 	pthread_mutex_unlock(mutex);
-		 // call error
+		return (error(NULL, E_MUTEX), -1);
 	return (0);
 }
-

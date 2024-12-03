@@ -43,13 +43,13 @@ long	ft_atol(char *str)
 	sign = 1;
 	result = 0;
 	if (not_a_digit(str) == -1)
-		return (error_handling(str, "not a number"), -1);
+		return (error(str, E_INVALIDINPT), -1);
 	while (ft_isspace(str[i]))
 		i++;
 	if (str[i] == '-' || str[i] == '+')
 	{
 		if (str[i] == '-')
-		   return (error_handling(str, "is a negative value"), -1);
+		   return (error(str, E_INVALIDINPT), -1);
 		i++;
 	}
 	while (str[i] >= '0' && str[i] <= '9')
@@ -57,7 +57,7 @@ long	ft_atol(char *str)
 		result = result * 10 + (str[i] - '0');
 		i++;
 		if (result > INT_MAX)
-			return (error_handling(str, "exceeds INT_MAX"), -1);
+			return (error(str, E_INVALIDINPT), -1);
 	}
 	return (result * sign);
 }
@@ -87,11 +87,11 @@ int is_error(t_table *table)
 int is_lower_limit(t_table *table)
 {
 	if (table->time_to_die < 60000)
-		return (error_handling("time_to_die", "is under 60ms"), -1);
+		return (error("time_to_die", E_UNDERMINMS), -1);
 	if (table->time_to_eat < 60000)
-		return (error_handling("time_to_eat", "is under 60ms"), -1);
+		return (error("time_to_eat", E_UNDERMINMS), -1);
 	if (table->time_to_sleep < 60000)
-		return (error_handling("time_to_sleep", "is under 60ms"), -1);
+		return (error("time_to_sleep", E_UNDERMINMS), -1);
 	return (0);
 }
 

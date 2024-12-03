@@ -25,11 +25,11 @@ int	main(int argc, char *argv[])
         if (dinner(&table) == -1)
             return (-1);
         //  looping
-
+        cleaner(&table);
         //  clean if 1 philo dies or everyone is full
     }
     else
-        error_handling(NULL, "wrong number of arguments");
+        error(NULL, E_ARGS);
     return (0);
 }
 
@@ -39,11 +39,10 @@ int	main(int argc, char *argv[])
 // [time_to_sleep]
 // [nbr_meals]
 
-// 1 800 200 200
-// --> Deadlock
 // 5 800 200 200
 // --> passes (no philo should die)
 // 5 800 200 200 7
 // --> not all philos eat seven times
 // 4 410 200 200
 // --> passes (no philos should die)
+

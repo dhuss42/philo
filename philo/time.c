@@ -19,7 +19,7 @@ long time_stamp(long	start_time)
 
 	if (gettimeofday(&ts, NULL) == -1)
 	{
-		// call error
+		error(NULL, E_GETTIME);
 	}
 	elapsed_ms = ((ts.tv_sec) * 1000 + (ts.tv_usec) / 1000) - start_time;
 	return (elapsed_ms);
@@ -31,10 +31,9 @@ void	set_start_time(t_table *table)
 
 	if (gettimeofday(&tv, NULL) == -1)
 	{
-		// call error
+		return (error(NULL, E_GETTIME));
 	}
 	table->start_time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
-	// printf("start_time %ld\n", table->start_time);
 }
 //--------//
 // gets time of day
@@ -42,7 +41,7 @@ void	set_start_time(t_table *table)
 // later time_stamp function will take the start_time
 // and subtract the current time to get the elapsed time
 
-void	custom_usleep(long duration)
+void	custom_usleep(long duration, t_table *table)
 {
 	struct timeval start;
 	struct timeval now;
@@ -52,20 +51,20 @@ void	custom_usleep(long duration)
 
 	if (gettimeofday(&start, NULL) == -1)
 	{
-		// error
-		return ;
+		return (error(NULL, E_GETTIME));
 	}
 	start_time = (start.tv_sec * 1000) + (start.tv_usec / 1000);
 	while (1)
 	{
 		if (gettimeofday(&now, NULL) == -1)
 		{
-			// error
-			return ;
+			return (error(NULL, E_GETTIME));
 		}
 		elapsed_time = ((now.tv_sec * 1000) + (now.tv_usec / 1000)) - start_time;
 		if (elapsed_time >= duration)
 			break ;
+		if (get_bool(&table->table_mutex, &table->finished) == true)
+			return ;
 		usleep(100);
 	}
 }

@@ -41,7 +41,8 @@ void	set_philo(t_table *table)
         table->philos[i].table = table;
         table->philo_died = false;
 		table->philos[i].last_meal = table->time_to_eat / 1000;
-        pthread_mutex_init(&table->philos[i].philo_mutex, NULL);
+        if (pthread_mutex_init(&table->philos[i].philo_mutex, NULL) != 0)
+            error(NULL, E_MUTEX);
         distribute_forks(&table->philos[i], table->forks, i);
         i++;
     }
@@ -57,24 +58,24 @@ int	set_the_table(t_table *table)
     table->ready_count = 0;
     table->finished = false;
     table->start_time = 0;
-    table->philos = malloc(sizeof(t_philo) * (table->nbr_philos)); // NULL terminate?
+    table->philos = malloc(sizeof(t_philo) * (table->nbr_philos));
     if (!table->philos)
-        return (error_handling("table->philos", "allocation failure"), -1);
+        return (error(NULL, E_ALLOC), -1);
     if (pthread_mutex_init(&table->table_mutex, NULL) != 0)
-        return (error_handling("table->table_mutex","init mutex failed\n"), -1);
+        return (error(NULL, E_MUTEX), -1);
     if (pthread_mutex_init(&table->write_mutex, NULL) != 0)
-        return (error_handling("table->write_mutex","init mutex failed\n"), -1);
+        return (error(NULL, E_MUTEX), -1);
     table->forks = malloc(sizeof(t_fork) * table->nbr_philos);
     if (!table->forks)
-        return (error_handling("table->forks", "allocation failure"), free(table->philos), -1);
+        return (error(NULL, E_ALLOC), -1);
     while (i < table->nbr_philos)
     {
         if (pthread_mutex_init(&table->forks[i].fork, NULL) != 0)
-            return (error_handling(NULL, "Mutex init failed"), -1); // free philos and forks
+            return (error(NULL, E_MUTEX), -1); // free philos and forks
         table->forks[i].fork_id = i;
         i++;
     }
-    set_philo(table);
+    set_philo(table); // possibly check for return value depends on how I handle inside the error function
     return (0);
 }
 

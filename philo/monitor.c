@@ -21,35 +21,31 @@ bool	philo_died(t_philo *philo)
 	elapsed_time = time_stamp(philo->table->start_time);
 	handle_mutex_lock(&philo->table->table_mutex, UNLOCK);
 
-	pthread_mutex_lock(&philo->philo_mutex); 
+	handle_mutex_lock(&philo->philo_mutex, LOCK);
 	if (philo->full)
 	{
-		pthread_mutex_unlock(&philo->philo_mutex);
+		handle_mutex_lock(&philo->philo_mutex, UNLOCK);
 		return (false);
 	}
 	if (elapsed_time - philo->last_meal > philo->table->time_to_die / 1000)
 	{
-		// printf(MAGENTA"philo died\n"WHITE);
 		philo->dead = true;
-		pthread_mutex_unlock(&philo->philo_mutex);
+		handle_mutex_lock(&philo->philo_mutex, UNLOCK);
 		return (true);
 	}
-	pthread_mutex_unlock(&philo->philo_mutex);
+	handle_mutex_lock(&philo->philo_mutex, UNLOCK);
 	return (false);
 }
 
 bool	all_threads_running(t_table *table)
 {
-	pthread_mutex_lock(&table->table_mutex);
-	// printf("monitor: adress table %p\n", table);
-	// printf("all_threads_running ready_count: %d\n", table->ready_count);
+	handle_mutex_lock(&table->table_mutex, LOCK);
 	if (table->threads_ready == true)
 	{
-		pthread_mutex_unlock(&table->table_mutex);
+		handle_mutex_lock(&table->table_mutex, UNLOCK);
 		return (true);
 	}
-	pthread_mutex_unlock(&table->table_mutex);
-	// exit(EXIT_SUCCESS);
+	handle_mutex_lock(&table->table_mutex, UNLOCK);
 	return (false);
 }
 
@@ -62,7 +58,6 @@ void	*monitor_dinner(void *arg)
 	table = (t_table *)arg;
 	while (!all_threads_running(table))
 		usleep(10);
-
 	while (!table->finished)
 	{
 		i = 0;

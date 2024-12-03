@@ -37,7 +37,7 @@ void    desync(t_philo *philo)
     if (table->nbr_philos % 2 == 0)
     {
         if (philo->id % 2 == 0)
-            usleep(30000); //
+            custom_usleep(3000, philo->table);
     }
     else
     {
@@ -59,18 +59,16 @@ void *spagethi_time(void *arg)
     t_philo *philo;
 
     philo = (t_philo *)arg;
-    pthread_mutex_lock(&philo->table->table_mutex);
-	// printf("philo: adress table %p\n", philo->table);
+    handle_mutex_lock(&philo->table->table_mutex, LOCK);
     philo->table->ready_count++;
-    // printf(GREEN"ready_count: %d\n"WHITE, philo->table->ready_count);
     if (philo->table->ready_count == philo->table->nbr_philos)
     {
         philo->table->threads_ready = true;
     }
-    pthread_mutex_unlock(&philo->table->table_mutex);
+    handle_mutex_lock(&philo->table->table_mutex, UNLOCK);
     wait_threads(philo->table);
     // set last_meal_time ??
-    // desync(philo);
+    desync(philo);
 
     // printf("Philosopher %d started at elapsed time: %ld ms\n", philo->id, time_stamp(philo->table->start_time));
     // printf("threads ready\n");
@@ -85,7 +83,6 @@ void *spagethi_time(void *arg)
         think(philo);
     }
     return (NULL);
-        // exit(EXIT_SUCCESS);
 }
 
 //---------//
@@ -114,7 +111,7 @@ int dinner(t_table *table)
     else if (table->nbr_philos == 1)
     {
         if (pthread_create(&table->philos[0].thread_id, NULL, single_philo, &table->philos[0]) != 0)
-            return (-1);
+            return (error(NULL, E_PTHREAD), -1);
     }
     else
     {
@@ -122,7 +119,7 @@ int dinner(t_table *table)
         {
             table->philos[i].table = table;
             if (pthread_create(&table->philos[i].thread_id, NULL, spagethi_time, &table->philos[i]) != 0)
-                return (-1);
+                return (error(NULL, E_PTHREAD), -1);
             i++;
         }
     }
@@ -130,14 +127,16 @@ int dinner(t_table *table)
     set_start_time(table);
     handle_mutex_lock(&table->table_mutex, UNLOCK);
     if (pthread_create(&table->doctor, NULL, monitor_dinner, table) != 0)
-		return (-1);
+		return (error(NULL, E_PTHREAD), -1);
     int j = 0;
     while (j < table->nbr_philos)
     {
-        pthread_join(table->philos[j].thread_id, NULL);
+        if (pthread_join(table->philos[j].thread_id, NULL) != 0)
+            return (error("JOIN", E_PTHREAD), -1);
         j++;
     }
-    pthread_join(table->doctor, NULL);
+    if (pthread_join(table->doctor, NULL) != 0)
+        return (error("JOIN", E_PTHREAD), -1);
 
     printf("Simulation ended\n");
     return (0);
