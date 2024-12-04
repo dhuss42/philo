@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 10:08:26 by dhuss             #+#    #+#             */
-/*   Updated: 2024/12/03 15:40:37 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/12/04 10:52:34 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	write_status(t_philo *philo, const char *status)
 	if (get_bool(&philo->table->table_mutex, &philo->table->finished))
 		return ;
 	handle_mutex_lock(&philo->philo_mutex, LOCK);
-	if (philo->dead == true || philo->full == true)
+	if (philo->full == true)
 	{
 		handle_mutex_lock(&philo->philo_mutex, UNLOCK);
 		return ;

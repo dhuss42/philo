@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 12:06:35 by dhuss             #+#    #+#             */
-/*   Updated: 2024/12/03 15:25:21 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/12/04 10:12:52 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	*single_philo(void *arg);
 void	*monitor_dinner(void *arg);
 void	wait_threads(t_table *table);
 
-void	set_start_time(t_table *table);
+int		set_start_time(t_table *table);
 long	time_stamp(long start_time);
 void	custom_usleep(long duration, t_table *table);
 

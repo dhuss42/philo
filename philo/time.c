@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 10:08:35 by dhuss             #+#    #+#             */
-/*   Updated: 2024/12/03 14:50:04 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/12/04 10:14:06 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,16 @@ long	time_stamp(long start_time)
 	return (elapsed_ms);
 }
 
-void	set_start_time(t_table *table)
+int	set_start_time(t_table *table)
 {
 	struct timeval	tv;
 
 	if (gettimeofday(&tv, NULL) == -1)
 	{
-		return (error(NULL, E_GETTIME));
+		return (error(NULL, E_GETTIME), -1);
 	}
 	table->start_time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+	return (0);
 }
 //--------//
 // gets time of day

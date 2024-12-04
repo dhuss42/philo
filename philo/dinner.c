@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 12:45:19 by dhuss             #+#    #+#             */
-/*   Updated: 2024/12/03 15:30:22 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/12/04 10:53:58 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	*spagethi_time(void *arg)
 	}
 	handle_mutex_lock(&philo->table->table_mutex, UNLOCK);
 	wait_threads(philo->table);
-	// set last_meal_time ??
+	// set_long(&philo->philo_mutex, &philo->last_meal, time_stamp(philo->table->start_time));
 	desync(philo);
 	while (!get_bool(&philo->table->table_mutex, &philo->table->finished))
 	{
@@ -86,13 +86,13 @@ void	*spagethi_time(void *arg)
 //	  calls sleep
 //	  calls think
 
-int	dinner(t_table *table)
+int	create_philos(t_table *table)
 {
 	int	i;
 
 	i = 0;
 	if (table->nbr_meals <= 0)
-		return (-1);
+		return (error("nbr of meals", E_INVALIDINPT), -1);
 	else if (table->nbr_philos == 1)
 	{
 		if (pthread_create(&table->philos[0].thread_id, NULL, single_philo, &table->philos[0]) != 0)
@@ -108,12 +108,20 @@ int	dinner(t_table *table)
 			i++;
 		}
 	}
-	handle_mutex_lock(&table->table_mutex, LOCK);
-	set_start_time(table); // handle
-	handle_mutex_lock(&table->table_mutex, UNLOCK);
+	return (0);
+}
+
+int	dinner(t_table *table)
+{
+	int	j;
+
+	j = 0;
+	if (set_start_time(table) == -1)
+		return (-1);
+	if (create_philos(table) == -1)
+		return (-1);
 	if (pthread_create(&table->doctor, NULL, monitor_dinner, table) != 0)
 		return (error(NULL, E_PTHREAD), -1);
-	int	j = 0;
 	while (j < table->nbr_philos)
 	{
 		if (pthread_join(table->philos[j].thread_id, NULL) != 0)
