@@ -6,7 +6,7 @@
 #    By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/14 12:07:15 by dhuss             #+#    #+#              #
-#    Updated: 2024/12/03 14:40:20 by dhuss            ###   ########.fr        #
+#    Updated: 2024/12/04 14:40:13 by dhuss            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ CFLAGS = -Werror -Wextra -Wall -g
 # CFLAGS = -Werror -Wextra -Wall -g -fsanitize=thread
 CFILES = main.c\
 	parser.c\
+	parser_utils.c\
 	set_the_table.c\
 	dinner.c\
 	monitor.c\

@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 12:06:35 by dhuss             #+#    #+#             */
-/*   Updated: 2024/12/04 10:12:52 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/12/04 14:40:47 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,9 @@ typedef enum e_error
 int		parser(t_table *table, char **argv);
 int		set_the_table(t_table *table);
 int		dinner(t_table *table);
+
+bool	ft_isspace(char c);
+int		not_a_digit(char *str);
 
 void	*single_philo(void *arg);
 void	*monitor_dinner(void *arg);

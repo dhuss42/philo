@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 12:07:19 by dhuss             #+#    #+#             */
-/*   Updated: 2024/12/04 11:01:59 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/12/04 14:29:44 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ int	main(int argc, char *argv[])
 			return (-1);
 		if (dinner(&table) == -1)
 			return (-1);
-		//  looping
 		cleaner(&table);
-		//  clean if 1 philo dies or everyone is full
 	}
 	else
 		error(NULL, E_ARGS);
@@ -34,7 +32,6 @@ int	main(int argc, char *argv[])
 }
 
 // check if philo nbr is greater than 0
-
 
 // [nbr_philo]
 // [time_to_die]
