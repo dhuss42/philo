@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 14:50:33 by dhuss             #+#    #+#             */
-/*   Updated: 2024/12/03 14:52:37 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/12/04 14:36:31 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	*single_philo(void *arg)
 	}
 	handle_mutex_lock(&table->table_mutex, UNLOCK);
 	wait_threads(table);
-	set_long(&philo->philo_mutex, &philo->last_meal, time_stamp(table->start_time));
+	set_long(&philo->philo_mutex, &philo->last_meal,
+		time_stamp(table->start_time));
 	write_status(philo, "has taken a fork");
 	while (!table)
 		usleep(200);

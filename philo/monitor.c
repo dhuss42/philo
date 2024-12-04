@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 10:08:19 by dhuss             #+#    #+#             */
-/*   Updated: 2024/12/04 10:54:25 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/12/04 14:33:51 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ bool	philo_died(t_philo *philo)
 	handle_mutex_lock(&philo->table->table_mutex, LOCK);
 	elapsed_time = time_stamp(philo->table->start_time);
 	handle_mutex_lock(&philo->table->table_mutex, UNLOCK);
-
 	handle_mutex_lock(&philo->philo_mutex, LOCK);
 	if (philo->full)
 	{
@@ -48,6 +47,21 @@ bool	all_threads_running(t_table *table)
 	return (false);
 }
 
+void	dead_or_full(t_table *table, int *i)
+{
+	if (philo_died(&table->philos[(*i)]))
+	{
+		usleep(1000);
+		write_status(&table->philos[(*i)], "died");
+		set_bool(&table->table_mutex, &table->finished, true);
+	}
+	handle_mutex_lock(&table->table_mutex, LOCK);
+	if (table->full_count == table->nbr_philos)
+		table->finished = true;
+	handle_mutex_lock(&table->table_mutex, UNLOCK);
+	(*i)++;
+}
+
 void	*monitor_dinner(void *arg)
 {
 	t_table	*table;
@@ -61,18 +75,9 @@ void	*monitor_dinner(void *arg)
 		i = 0;
 		while (i < table->nbr_philos)
 		{
-			if (philo_died(&table->philos[i]))
-			{
-				write_status(&table->philos[i], "died");
-				set_bool(&table->table_mutex, &table->finished, true);
-			}
-			handle_mutex_lock(&table->table_mutex, LOCK);
-			if (table->full_count == table->nbr_philos)
-				table->finished = true;
-			handle_mutex_lock(&table->table_mutex, UNLOCK);
-			i++;
+			dead_or_full(table, &i);
 		}
-		usleep(10);
+		usleep(5);
 	}
 	return (NULL);
 }

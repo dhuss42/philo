@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 12:06:56 by dhuss             #+#    #+#             */
-/*   Updated: 2024/12/03 15:29:57 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/12/04 14:35:50 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ void	init_table_struct(t_table *table)
 {
 	table->philo_died = false;
 	table->threads_ready = false;
+	table->finished = false;
 	table->ready_count = 0;
 	table->full_count = 0;
-	table->finished = false;
 	table->start_time = 0;
 }
 
@@ -74,11 +74,11 @@ int	set_the_table(t_table *table)
 	while (i < table->nbr_philos)
 	{
 		if (pthread_mutex_init(&table->forks[i].fork, NULL) != 0)
-			return (error(NULL, E_MUTEX), -1); // free philos and forks
+			return (error(NULL, E_MUTEX), -1);
 		table->forks[i].fork_id = i;
 		i++;
 	}
-	set_philo(table); // possibly check for return value depends on how I handle inside the error function
+	set_philo(table);
 	return (0);
 }
 

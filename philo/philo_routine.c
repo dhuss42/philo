@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 10:08:26 by dhuss             #+#    #+#             */
-/*   Updated: 2024/12/04 11:24:42 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/12/04 14:47:56 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,9 @@ void	write_status(t_philo *philo, const char *status)
 
 	if (get_bool(&philo->table->table_mutex, &philo->table->finished))
 		return ;
-	handle_mutex_lock(&philo->philo_mutex, LOCK);
-	if (philo->full == true)
-	{
-		handle_mutex_lock(&philo->philo_mutex, UNLOCK);
-		return ;
-	}
-	handle_mutex_lock(&philo->philo_mutex, UNLOCK);
-
 	handle_mutex_lock(&philo->table->table_mutex, LOCK);
 	elapsed_time = time_stamp(philo->table->start_time);
 	handle_mutex_lock(&philo->table->table_mutex, UNLOCK);
-
 	pthread_mutex_lock(&philo->table->write_mutex);
 	printf("%ld %d %s\n", elapsed_time, philo->id, status);
 	pthread_mutex_unlock(&philo->table->write_mutex);
@@ -42,49 +33,8 @@ void	write_status(t_philo *philo, const char *status)
 // gets time passed since start
 // prints status message that was passed as arg
 
-void	full_check(t_philo *philo)
+void	grabbing_forks(t_philo *philo)
 {
-	t_table	*table;
-
-	table = philo->table;
-	handle_mutex_lock(&philo->philo_mutex, LOCK);
-	if (philo->meals_eaten == table->nbr_meals)
-	{
-		philo->full = true;
-	}
-	handle_mutex_lock(&philo->philo_mutex, UNLOCK);
-	if (get_bool(&philo->philo_mutex, &philo->full))
-		increment_int(&table->table_mutex, &table->full_count);
-}
-
-int	health_check(t_philo *philo)
-{
-	t_table	*table;
-
-	table = philo->table;
-	if (get_bool(&table->table_mutex, &table->finished))
-		return (-1);
-	handle_mutex_lock(&table->table_mutex, LOCK);
-	if (table->full_count == table->nbr_philos)
-	{
-		handle_mutex_lock(&table->table_mutex, UNLOCK);
-		return (-1);
-	}
-	handle_mutex_lock(&table->table_mutex, UNLOCK);
-	handle_mutex_lock(&philo->philo_mutex, LOCK);
-	if (philo->dead == true /* || philo->full == true */)
-	{
-		handle_mutex_lock(&philo->philo_mutex, UNLOCK);
-		return (-1);
-	}
-	handle_mutex_lock(&philo->philo_mutex, UNLOCK);
-	return (0);
-}
-
-void	eat(t_philo *philo)
-{
-	if (health_check(philo) == -1)
-		return ;
 	if (philo->id % 2 == 0)
 	{
 		handle_mutex_lock(&philo->left_fork->fork, LOCK);
@@ -99,6 +49,23 @@ void	eat(t_philo *philo)
 		handle_mutex_lock(&philo->left_fork->fork, LOCK);
 		write_status(philo, "has taken a fork");
 	}
+}
+
+void	eat(t_philo *philo)
+{
+	t_table	*table;
+
+	table = philo->table;
+	if (health_check(philo) == -1)
+		return ;
+	handle_mutex_lock(&table->table_mutex, LOCK);
+	if (table->full_count == table->nbr_philos)
+	{
+		handle_mutex_lock(&table->table_mutex, UNLOCK);
+		return ;
+	}
+	handle_mutex_lock(&table->table_mutex, UNLOCK);
+	grabbing_forks(philo);
 	handle_mutex_lock(&philo->philo_mutex, LOCK);
 	philo->last_meal = time_stamp(philo->table->start_time);
 	handle_mutex_lock(&philo->philo_mutex, UNLOCK);

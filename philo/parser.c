@@ -6,33 +6,11 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 12:07:08 by dhuss             #+#    #+#             */
-/*   Updated: 2024/12/04 11:07:23 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/12/04 14:40:44 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-bool	ft_isspace(char c)
-{
-	if ((c >= 9 && c <= 12) || c == 32)
-		return (true);
-	return (false);
-}
-
-int	not_a_digit(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != '\0')
-	{
-		if (!((str[i] >= '0' && str[i] <= '9') || str[i] == '+'
-				|| str[i] == '-' || ft_isspace(str[i])))
-			return (-1);
-		i++;
-	}
-	return (0);
-}
 
 long	ft_atol(char *str)
 {
