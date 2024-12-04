@@ -6,7 +6,7 @@
 #    By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/14 12:07:15 by dhuss             #+#    #+#              #
-#    Updated: 2024/12/04 14:40:13 by dhuss            ###   ########.fr        #
+#    Updated: 2024/12/04 15:22:03 by dhuss            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ CFILES = main.c\
 	single_philo.c\
 	time.c\
 	philo_routine.c\
+	checks.c\
 	safe_mutex.c\
 	getters_setters.c\
 	error_handling.c\

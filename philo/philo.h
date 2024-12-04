@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 12:06:35 by dhuss             #+#    #+#             */
-/*   Updated: 2024/12/04 14:40:47 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/12/04 15:07:00 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,9 @@ void	think(t_philo *philo);
 void	custom_sleep(t_philo *philo);
 void	eat(t_philo *philo);
 void	write_status(t_philo *philo, const char *status);
+
+int		health_check(t_philo *philo);
+void	full_check(t_philo *philo);
 
 int		set_bool(t_mtx *mutex, bool *dest, bool value);
 bool	get_bool(t_mtx *mutex, bool *value);
