@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 10:08:26 by dhuss             #+#    #+#             */
-/*   Updated: 2024/12/04 10:52:34 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/12/04 11:24:42 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,15 @@ int	health_check(t_philo *philo)
 	table = philo->table;
 	if (get_bool(&table->table_mutex, &table->finished))
 		return (-1);
+	handle_mutex_lock(&table->table_mutex, LOCK);
+	if (table->full_count == table->nbr_philos)
+	{
+		handle_mutex_lock(&table->table_mutex, UNLOCK);
+		return (-1);
+	}
+	handle_mutex_lock(&table->table_mutex, UNLOCK);
 	handle_mutex_lock(&philo->philo_mutex, LOCK);
-	if (philo->dead == true || philo->full == true)
+	if (philo->dead == true /* || philo->full == true */)
 	{
 		handle_mutex_lock(&philo->philo_mutex, UNLOCK);
 		return (-1);
@@ -94,10 +101,10 @@ void	eat(t_philo *philo)
 	}
 	handle_mutex_lock(&philo->philo_mutex, LOCK);
 	philo->last_meal = time_stamp(philo->table->start_time);
-	philo->meals_eaten++;
 	handle_mutex_lock(&philo->philo_mutex, UNLOCK);
 	write_status(philo, "is eating");
 	custom_usleep(philo->table->time_to_eat / 1000, philo->table);
+	increment_int(&philo->philo_mutex, (int *)&philo->meals_eaten);
 	handle_mutex_lock(&philo->right_fork->fork, UNLOCK);
 	handle_mutex_lock(&philo->left_fork->fork, UNLOCK);
 	full_check(philo);
