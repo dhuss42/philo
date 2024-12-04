@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 12:07:19 by dhuss             #+#    #+#             */
-/*   Updated: 2024/12/03 15:16:20 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/12/04 11:01:59 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ int	main(int argc, char *argv[])
 		error(NULL, E_ARGS);
 	return (0);
 }
+
+// check if philo nbr is greater than 0
+
 
 // [nbr_philo]
 // [time_to_die]

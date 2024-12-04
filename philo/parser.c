@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 12:07:08 by dhuss             #+#    #+#             */
-/*   Updated: 2024/12/03 15:29:39 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/12/04 11:07:23 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ long	ft_atol(char *str)
 
 int	is_error(t_table *table)
 {
-	if (table->nbr_philos == -1)
+	if (table->nbr_philos <= 0)
 		return (-1);
 	if (table->time_to_die == -1000)
 		return (-1);
