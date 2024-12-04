@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 10:08:19 by dhuss             #+#    #+#             */
-/*   Updated: 2024/12/04 15:35:43 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/12/04 16:08:14 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,15 @@ void	dead_or_full(t_table *table, int *i)
 {
 	if (philo_died(&table->philos[(*i)]))
 	{
-		usleep(1000);
+		if (table->nbr_philos > 100)
+		{
+			if (table->nbr_philos % 2 != 0)
+				usleep(6500);
+			else
+				usleep(2000);
+		}
+		else
+			usleep(1000);
 		write_status(&table->philos[(*i)], "died");
 		set_bool(&table->table_mutex, &table->finished, true);
 	}
