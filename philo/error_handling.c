@@ -6,10 +6,9 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 12:07:24 by dhuss             #+#    #+#             */
-/*   Updated: 2024/11/14 12:07:25 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/12/03 15:17:35 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "philo.h"
 
@@ -18,11 +17,9 @@
 // monitor checks if end simulation is true
 // exits if an error occureds
 
-// make this function nicer using enums
-
 void	ft_putchar(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i] != '\0')
@@ -54,5 +51,4 @@ void	error(char *str, t_error error_code)
 		ft_putchar(str);
 	while (msg[i] != '\0')
 		write (2, &msg[i++], 1);
-	
 }

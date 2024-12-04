@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 12:07:19 by dhuss             #+#    #+#             */
-/*   Updated: 2024/11/25 10:10:25 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/12/03 15:16:20 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,23 @@
 
 int	main(int argc, char *argv[])
 {
-	t_table table;
+	t_table	table;
 
-    if (argc == 5 || argc == 6)
-    {
-        if (parser(&table, argv) == -1)
-            return (-1);
-        if (set_the_table(&table) == -1)
-            return (-1);
-        if (dinner(&table) == -1)
-            return (-1);
-        //  looping
-        cleaner(&table);
-        //  clean if 1 philo dies or everyone is full
-    }
-    else
-        error(NULL, E_ARGS);
-    return (0);
+	if (argc == 5 || argc == 6)
+	{
+		if (parser(&table, argv) == -1)
+			return (-1);
+		if (set_the_table(&table) == -1)
+			return (-1);
+		if (dinner(&table) == -1)
+			return (-1);
+		//  looping
+		cleaner(&table);
+		//  clean if 1 philo dies or everyone is full
+	}
+	else
+		error(NULL, E_ARGS);
+	return (0);
 }
 
 // [nbr_philo]
@@ -46,3 +46,5 @@ int	main(int argc, char *argv[])
 // 4 410 200 200
 // --> passes (no philos should die)
 
+// 200 410 200 200
+// 200 150 60 60
