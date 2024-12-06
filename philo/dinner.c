@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 12:45:19 by dhuss             #+#    #+#             */
-/*   Updated: 2024/12/04 15:14:16 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/12/06 11:55:54 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,6 @@ void	desync(t_philo *philo)
 	}
 }
 
-//------------//
-// checks if the total amount of philos is even
-//	if so it checks whether the current philo has an even position
-//	  if so it sleeps
-// if the total amount of philos is uneven
-//	 the even numbered philos think first
-//---> to make the simulation fair
-
 void	*spagethi_time(void *arg)
 {
 	t_philo	*philo;
@@ -69,21 +61,6 @@ void	*spagethi_time(void *arg)
 	}
 	return (NULL);
 }
-
-//---------//
-// philo threads run through this function
-// threads wait until all threads are ready
-//	  lock mutex, add to counter,
-//	  if counter = nbr of philos -> threads_ready true
-//	  unlock mutex
-//	  calls threads wait until threads_ready is set to true
-// calls desync threads
-//
-// loop through routine until a philo is dead
-//	  if a philo has eaten nbr_meals times break;
-//	  calls eat
-//	  calls sleep
-//	  calls think
 
 int	create_philos(t_table *table)
 {
@@ -133,14 +110,3 @@ int	dinner(t_table *table)
 		return (error("JOIN", E_PTHREAD), -1);
 	return (0);
 }
-
-// ---------- //
-// checks if nbr of meals is smaller or equal to 0
-//  if so returns
-// checks if there is only 1 philo
-//  if so special case
-// else creates philo threads
-//  sets the starting time
-// creates monitor thread
-// waits to join all threads
-// then joins monitor thread

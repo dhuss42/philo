@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 10:08:26 by dhuss             #+#    #+#             */
-/*   Updated: 2024/12/04 15:45:58 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/12/06 11:56:43 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,6 @@ void	write_status(t_philo *philo, const char *status)
 	printf("%ld %d %s\n", elapsed_time, philo->id, status);
 	pthread_mutex_unlock(&philo->table->write_mutex);
 }
-
-//-------------------------//
-// checks if the philo is full or if a philo died
-//	  prints according message
-//		  ----> not sure if the message should be printed here
-// gets time passed since start
-// prints status message that was passed as arg
 
 void	grabbing_forks(t_philo *philo)
 {
@@ -77,16 +70,6 @@ void	eat(t_philo *philo)
 	full_check(philo);
 }
 
-//-------------------------//
-// if the philo id is even it takes the left fork and then the right fork
-// if the philo id is odd it takes the right fork and then the left fork
-// updates the last_meal time of the philo to the current time - start-time
-// ----> I think this is not correct
-// increaments meals_eaten inside mutex
-// waits until time to eat is over
-// if meals eaten is = nbr of meals
-//  set philo full to true;
-
 void	custom_sleep(t_philo *philo)
 {
 	if (health_check(philo) == -1)
@@ -94,9 +77,6 @@ void	custom_sleep(t_philo *philo)
 	write_status(philo, "is sleeping");
 	custom_usleep(philo->table->time_to_sleep / 1000, philo->table);
 }
-
-// wirtes status sleeping
-// sleeps for time_to_sleep
 
 void	think(t_philo *philo)
 {
@@ -114,9 +94,3 @@ void	think(t_philo *philo)
 		think_time = 0;
 	custom_usleep((think_time / 1000) * 0.5, table);
 }
-
-// writes status is thinking
-// if philo_nbr is even the function returns
-// ---> an even numbered simulation is in itself fait
-// if not even has to think long
-// ---> need to look up why this length

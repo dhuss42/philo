@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 14:50:33 by dhuss             #+#    #+#             */
-/*   Updated: 2024/12/04 14:36:31 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/12/06 11:57:02 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,3 @@ void	*single_philo(void *arg)
 		usleep(200);
 	return (NULL);
 }
-
-// single philo
-// increment ready count
-// set ready to true
-// set last meal time
-// write status simulating taking a fork
-// wait till monitor catches him

@@ -6,16 +6,11 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 12:07:24 by dhuss             #+#    #+#             */
-/*   Updated: 2024/12/03 15:17:35 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/12/06 11:56:01 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-// could change this to set a bool to true
-// something like end simulation
-// monitor checks if end simulation is true
-// exits if an error occureds
 
 void	ft_putchar(char *str)
 {

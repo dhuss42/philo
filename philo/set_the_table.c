@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 12:06:56 by dhuss             #+#    #+#             */
-/*   Updated: 2024/12/04 14:35:50 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/12/06 11:56:58 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ void	distribute_forks(t_philo *philo, t_fork *forks, int position)
 		philo->right_fork = &forks[(position + 1) % philo->table->nbr_philos];
 	}
 }
-// function to distribute forks in a circular manner
-// for even numbered philos the distribution is reversed to avoid deadlock
 
 void	set_philo(t_table *table)
 {
@@ -81,16 +79,3 @@ int	set_the_table(t_table *table)
 	set_philo(table);
 	return (0);
 }
-
-	// allocate philos
-	// allocate forks
-	// init mutex forks
-		// forks are mutexes, which means they
-		// can only be accessed by one philo at a time
-	// init philos
-		// loop
-		// philo id = i + 1
-		// philo full = false
-		// philo meals counter = 0
-		// philo table = table
-		// assign forks

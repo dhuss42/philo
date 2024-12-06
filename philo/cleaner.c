@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 10:05:34 by dhuss             #+#    #+#             */
-/*   Updated: 2024/12/03 15:21:31 by dhuss            ###   ########.fr       */
+/*   Updated: 2024/12/06 11:55:18 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,3 @@ void	cleaner(t_table *table)
 	if (table->philos)
 		free(table->philos);
 }
-// free philos
-// loop through nbr of philos
-//	  philo = table->philo + i
-//	  destory philo_mutex
-// destroy table write_mutex
-// destroy Table_mutex
-// free forks
-// free philos
