@@ -15,6 +15,7 @@ CFLAGS = -Werror -Wextra -Wall -g
 # CFLAGS = -Werror -Wextra -Wall -g -fsanitize=thread
 CFILES = main.c\
 	parser.c\
+	checks.c\
 	parser_utils.c\
 	set_the_table.c\
 	dinner.c\

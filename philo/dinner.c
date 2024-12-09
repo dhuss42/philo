@@ -26,7 +26,8 @@ void	desync(t_philo *philo)
 	if (table->nbr_philos % 2 == 0)
 	{
 		if (philo->id % 2 == 0)
-			custom_usleep(30, philo->table);
+			think(philo);
+			// custom_usleep(30, philo->table);
 	}
 	else
 	{

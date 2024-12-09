@@ -31,6 +31,9 @@ int	main(int argc, char *argv[])
 	return (0);
 }
 
+// start philo nbr from 1
+// handle so times don't have to be multiplied and devided by 1000
+
 // check if philo nbr is greater than 0
 
 // [nbr_philo]

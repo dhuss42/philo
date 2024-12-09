@@ -115,6 +115,9 @@ void	custom_sleep(t_philo *philo);
 void	eat(t_philo *philo);
 void	write_status(t_philo *philo, const char *status);
 
+void	full_check(t_philo *philo);
+int		health_check(t_philo *philo);
+
 int		set_bool(t_mtx *mutex, bool *dest, bool value);
 bool	get_bool(t_mtx *mutex, bool *value);
 long	get_long(t_mtx *mutex, long *value);

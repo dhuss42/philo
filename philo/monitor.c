@@ -20,16 +20,16 @@ bool	philo_died(t_philo *philo)
 	elapsed_time = time_stamp(philo->table->start_time);
 	handle_mutex_lock(&philo->table->table_mutex, UNLOCK);
 	handle_mutex_lock(&philo->philo_mutex, LOCK);
-	if (philo->full)
-	{
-		handle_mutex_lock(&philo->philo_mutex, UNLOCK);
-		return (false);
-	}
 	if (elapsed_time - philo->last_meal >= philo->table->time_to_die / 1000)
 	{
 		philo->dead = true;
 		handle_mutex_lock(&philo->philo_mutex, UNLOCK);
 		return (true);
+	}
+	if (philo->full)
+	{
+		handle_mutex_lock(&philo->philo_mutex, UNLOCK);
+		return (false);
 	}
 	handle_mutex_lock(&philo->philo_mutex, UNLOCK);
 	return (false);
