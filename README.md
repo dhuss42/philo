@@ -47,7 +47,6 @@ After eating, the philosopher logs a status message and enters the sleeping phas
 After sleeping, the philosopher logs another status message and begins thinking.
 For even-numbered philosophers, the system is inherently fair, so no special action is taken. However, if the number oh philosophers is not even, the thinking time hast to be adjusted to make the system fair in every situation (sometimes philos will eat twice in a row because they blocked the forks twice in a row). The possible time to think is time to eat * 2 - time to sleep. In order to avoid a philo eating twice in a row the philo will forcefully think for at least 50% of the possible time to tink.
 
-Monitor thread
 A separate monitor thread oversees the simulation, ensuring its termination under specific conditions. If any philosopher has "died" (exceeded their allowed time without eating), or
 if all philosophers are "full" (have completed the required number of meals) the monitor sets a flag to signal the simulation’s completion.
     
