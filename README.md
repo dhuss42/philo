@@ -1,19 +1,20 @@
-# philo
-This project was about learning the basics of threading a process. To be more specific it was about creating threads and implementing mutexes.
+# Philosophers
 
 ## Contents
 
 1. [Project overview](#1-Project-overview)
 2. [Project structure](#2-Project-structure)
 3. [Description of individual steps](#3-Description-of-individual-steps)
+4. [Run it](#4-Run-it)
 
 ## 1. Project overview
+This project was about learning the basics of threading a process. To be more specific it was about creating threads and implementing mutexes.
 
 ## 2. Project structure
 
 1.  [Parser](#31-Parser)
 2.  [Setting the table](#32-Setting-the-table)
-3.  [Loop](#33-Loop)
+3.  [Simulation](#33-Simulation)
 4.  [Cleaning up](##34-Cleaning-up)
 
 ## 3. Description of individual steps
@@ -38,37 +39,32 @@ Each philosopher thread runs a loop until the simulation ends. During each itera
 
 The philosopher then performs the following actions:
 
-Eating
+*Eating*
 The philosopher attempts to acquire two forks (mutex-protected), blocking access to them for other threads.
 A status message is logged, including the timestamp (in milliseconds), the philosopher’s number, and a message indicating the fork has been taken.
 The last meal time for the philosopher is updated, and a status message indicates that the philosopher is eating.
 The thread then waits for a specified duration to simulate eating, and a counter tracking how many times the philosopher has eaten is incremented.
 If the philosopher has eaten the required number of meals, a flag is set to indicate they are "full."
 
-Sleeping
+*Sleeping*
 After eating, the philosopher logs a status message and enters the sleeping phase for a specified duration.
 
-Thinking
+*Thinking*
 After sleeping, the philosopher logs another status message and begins thinking.
-For even-numbered philosophers, the system is inherently fair, so no special action is taken. if the number oh philos is not even the thinking time hast to be adjusted to make the system fair in every situation (sometimes philos will eat twice in a row because they blocked the forks twice in a row)
-        the possible time to think is time to eat * 2 - time to sleep
-        in order to avoid a philo eating twice in a row the philo will forcefully think for at least 50% of the possible time to tink
+For even-numbered philosophers, the system is inherently fair, so no special action is taken. However, if the number oh philosophers is not even, the thinking time hast to be adjusted to make the system fair in every situation (sometimes philos will eat twice in a row because they blocked the forks twice in a row). The possible time to think is time to eat * 2 - time to sleep. In order to avoid a philo eating twice in a row the philo will forcefully think for at least 50% of the possible time to tink.
 
-Monitor thread is created
-A separate monitor thread oversees the simulation, ensuring its termination under specific conditions:
-
-    If any philosopher has "died" (exceeded their allowed time without eating), or
-    If all philosophers are "full" (have completed the required number of meals). When either condition is met, the monitor sets a flag to signal the simulation’s completion.
+Monitor thread
+A separate monitor thread oversees the simulation, ensuring its termination under specific conditions. If any philosopher has "died" (exceeded their allowed time without eating), or
+if all philosophers are "full" (have completed the required number of meals) the monitor sets a flag to signal the simulation’s completion.
     
-
-To ensure thread safety and prevent race conditions, various mutexes are employed:
+To ensure thread safety and prevent race conditions, various mutexes are employed
 
     Philosopher Mutexes: Protect access to variables within each philosopher's data structure.
     Table Mutexes: Protect shared variables in the table structure, such as flags or global states.
     Fork Mutexes: Control access to the shared forks, ensuring only one philosopher can hold a fork at any given time.
     Write Mutexes: Ensure thread-safe logging of status messages.
 
-Once the simulation concludes, all threads (philosophers and the monitor) are joined together
+Once the simulation concludes, all threads (philosophers and the monitor) are joined together.
 
 ### 3.4 Cleaning up
 
