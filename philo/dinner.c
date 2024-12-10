@@ -20,19 +20,11 @@ void	wait_threads(t_table *table)
 
 void	desync(t_philo *philo)
 {
-		if (philo->id % 2 == 0)
+		if (philo->id % 2 != 0)
 			think(philo);
 }
 
-//------------//
-// checks if the total amount of philos is even
-//	if so it checks whether the current philo has an even position
-//	  if so it sleeps
-// if the total amount of philos is uneven
-//	 the even numbered philos think first
-//---> to make the simulation fair
-
-void	*spagethi_time(void *arg) // change name
+void	*simulation(void *arg)
 {
 	t_philo	*philo;
 
@@ -59,21 +51,6 @@ void	*spagethi_time(void *arg) // change name
 	return (NULL);
 }
 
-//---------//
-// philo threads run through this function
-// threads wait until all threads are ready
-//	  lock mutex, add to counter,
-//	  if counter = nbr of philos -> threads_ready true
-//	  unlock mutex
-//	  calls threads wait until threads_ready is set to true
-// calls desync threads
-//
-// loop through routine until a philo is dead
-//	  if a philo has eaten nbr_meals times break;
-//	  calls eat
-//	  calls sleep
-//	  calls think
-
 int	create_philos(t_table *table)
 {
 	int	i;
@@ -91,7 +68,7 @@ int	create_philos(t_table *table)
 		{
 			table->philos[i].table = table;
 			if (pthread_create(&table->philos[i].thread_id, NULL,
-					spagethi_time, &table->philos[i]) != 0)
+					simulation, &table->philos[i]) != 0)
 				return (error(NULL, E_PTHREAD), -1);
 			i++;
 		}
@@ -108,7 +85,7 @@ int	dinner(t_table *table)
 		return (-1);
 	if (create_philos(table) == -1)
 		return (-1);
-	if (pthread_create(&table->doctor, NULL, monitor_dinner, table) != 0) // change name of doctor
+	if (pthread_create(&table->monitor, NULL, monitor_dinner, table) != 0)
 		return (error(NULL, E_PTHREAD), -1);
 	while (j < table->nbr_philos)
 	{
@@ -116,18 +93,7 @@ int	dinner(t_table *table)
 			return (error("JOIN", E_PTHREAD), -1);
 		j++;
 	}
-	if (pthread_join(table->doctor, NULL) != 0)
+	if (pthread_join(table->monitor, NULL) != 0)
 		return (error("JOIN", E_PTHREAD), -1);
 	return (0);
 }
-
-// ---------- //
-// checks if nbr of meals is smaller or equal to 0
-//  if so returns
-// checks if there is only 1 philo
-//  if so special case
-// else creates philo threads
-//  sets the starting time
-// creates monitor thread
-// waits to join all threads
-// then joins monitor thread

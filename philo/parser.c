@@ -41,10 +41,6 @@ long	ft_atol(char *str)
 	return (result * sign);
 }
 
-// skips whitespaces
-// checks for negative values
-// converts to long and checks for INT_MAX
-
 int	parser(t_table *table, char **argv)
 {
 	table->nbr_philos = ft_atol(argv[1]);

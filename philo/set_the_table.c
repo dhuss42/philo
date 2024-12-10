@@ -16,14 +16,7 @@ void	distribute_forks(t_philo *philo, t_fork *forks, int position)
 {
 	philo->left_fork = &forks[position];
 	philo->right_fork = &forks[(position + 1) % philo->table->nbr_philos];
-	// if (philo->id % 2 == 0)
-	// {
-	// 	philo->left_fork = &forks[position];
-	// 	philo->right_fork = &forks[(position + 1) % philo->table->nbr_philos];
-	// }
 }
-// function to distribute forks in a circular manner
-// for even numbered philos the distribution is reversed to avoid deadlock
 
 void	set_philo(t_table *table)
 {
@@ -32,7 +25,7 @@ void	set_philo(t_table *table)
 	i = 0;
 	while (i < table->nbr_philos)
 	{
-		table->philos[i].id = i;
+		table->philos[i].id = i + 1;
 		table->philos[i].full = false;
 		table->philos[i].meals_eaten = 0;
 		table->philos[i].table = table;
@@ -81,16 +74,3 @@ int	set_the_table(t_table *table)
 	set_philo(table);
 	return (0);
 }
-
-	// allocate philos
-	// allocate forks
-	// init mutex forks
-		// forks are mutexes, which means they
-		// can only be accessed by one philo at a time
-	// init philos
-		// loop
-		// philo id = i + 1
-		// philo full = false
-		// philo meals counter = 0
-		// philo table = table
-		// assign forks

@@ -31,23 +31,8 @@ int	main(int argc, char *argv[])
 	return (0);
 }
 
-// start philo nbr from 1
-// handle so times don't have to be multiplied and devided by 1000
-
-// check if philo nbr is greater than 0
-
 // [nbr_philo]
 // [time_to_die]
 // [time_to_eat]
 // [time_to_sleep]
 // [nbr_meals]
-
-// 5 800 200 200
-// --> passes (no philo should die)
-// 5 800 200 200 7
-// --> not all philos eat seven times
-// 4 410 200 200
-// --> passes (no philos should die)
-
-// 200 410 200 200
-// 200 150 60 60

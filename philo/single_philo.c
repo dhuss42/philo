@@ -34,10 +34,3 @@ void	*single_philo(void *arg)
 		usleep(200);
 	return (NULL);
 }
-
-// single philo
-// increment ready count
-// set ready to true
-// set last meal time
-// write status simulating taking a fork
-// wait till monitor catches him

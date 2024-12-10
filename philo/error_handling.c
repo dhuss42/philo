@@ -12,11 +12,6 @@
 
 #include "philo.h"
 
-// could change this to set a bool to true
-// something like end simulation
-// monitor checks if end simulation is true
-// exits if an error occureds
-
 void	ft_putchar(char *str)
 {
 	int	i;

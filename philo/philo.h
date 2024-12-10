@@ -75,7 +75,7 @@ struct s_table
 	t_mtx		write_mutex;
 	t_fork		*forks;
 	t_philo		*philos;
-	pthread_t	doctor;
+	pthread_t	monitor;
 };
 
 typedef enum e_router

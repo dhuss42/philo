@@ -36,11 +36,6 @@ int	set_start_time(t_table *table)
 	table->start_time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
 	return (0);
 }
-//--------//
-// gets time of day
-// sets start time in ms in table struct
-// later time_stamp function will take the start_time
-// and subtract the current time to get the elapsed time
 
 void	custom_usleep(long duration, t_table *table)
 {
@@ -68,11 +63,3 @@ void	custom_usleep(long duration, t_table *table)
 		usleep(100);
 	}
 }
-
-// getting current time of the day
-// converting current time of day into ms
-// loop
-//	get current time again
-//	calc elapsed time by subtracting the two
-//	if the elapsed time is = or bigger than the passed duration break the loop
-//	sleep for short periods to reduce cpu usage
