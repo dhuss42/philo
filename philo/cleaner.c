@@ -19,9 +19,9 @@ void	cleaner(t_table *table)
 	i = 0;
 	while (i < table->nbr_philos)
 	{
-		if (pthread_mutex_destroy(&table->philos[i].philo_mutex) != 0)
+		if (pthread_mutex_destroy(&table->philos[i].philo_mutex) != 0) // check with hellgrind
 			error("DESTROY", E_MUTEX);
-		if (pthread_mutex_destroy(&table->forks[i].fork) != 0)
+		if (pthread_mutex_destroy(&table->forks[i].fork) != 0) // here too
 			error("DESTROY", E_MUTEX);
 		i++;
 	}
