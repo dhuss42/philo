@@ -70,7 +70,7 @@ void	eat(t_philo *philo)
 	philo->last_meal = time_stamp(philo->table->start_time);
 	handle_mutex_lock(&philo->philo_mutex, UNLOCK);
 	write_status(philo, "is eating");
-	custom_usleep(philo->table->time_to_eat / 1000, philo->table);
+	custom_usleep(philo->table->time_to_eat, philo->table);
 	increment_int(&philo->philo_mutex, (int *)&philo->meals_eaten);
 	handle_mutex_lock(&philo->right_fork->fork, UNLOCK);
 	handle_mutex_lock(&philo->left_fork->fork, UNLOCK);
@@ -92,7 +92,7 @@ void	custom_sleep(t_philo *philo)
 	if (health_check(philo) == -1)
 		return ;
 	write_status(philo, "is sleeping");
-	custom_usleep(philo->table->time_to_sleep / 1000, philo->table);
+	custom_usleep(philo->table->time_to_sleep, philo->table);
 }
 
 // wirtes status sleeping
@@ -112,7 +112,7 @@ void	think(t_philo *philo)
 	think_time = (table->time_to_eat * 2) - table->time_to_sleep;
 	if (think_time < 0)
 		think_time = 0;
-	custom_usleep((think_time / 1000) * 0.5, table);
+	custom_usleep(think_time * 0.5, table);
 }
 
 // writes status is thinking

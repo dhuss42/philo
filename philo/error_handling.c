@@ -37,8 +37,6 @@ void	error(char *str, t_error error_code)
 		msg = "Error: wrong number of arguments\n";
 	if (error_code == E_INVALIDINPT)
 		msg = "Error: invalid input\n";
-	if (error_code == E_UNDERMINMS)
-		msg = "Error: value is under 60ms\n";
 	if (error_code == E_ALLOC)
 		msg = "Error: allocation\n";
 	if (error_code == E_MUTEX)

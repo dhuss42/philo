@@ -88,7 +88,6 @@ typedef enum e_error
 {
 	E_ARGS,
 	E_INVALIDINPT,
-	E_UNDERMINMS,
 	E_PTHREAD,
 	E_MUTEX,
 	E_ALLOC,

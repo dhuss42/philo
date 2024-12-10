@@ -20,20 +20,8 @@ void	wait_threads(t_table *table)
 
 void	desync(t_philo *philo)
 {
-	t_table	*table;
-
-	table = philo->table;
-	if (table->nbr_philos % 2 == 0)
-	{
 		if (philo->id % 2 == 0)
 			think(philo);
-			// custom_usleep(30, philo->table);
-	}
-	else
-	{
-		if (philo->id % 2 == 0)
-			think(philo);
-	}
 }
 
 //------------//
@@ -44,7 +32,7 @@ void	desync(t_philo *philo)
 //	 the even numbered philos think first
 //---> to make the simulation fair
 
-void	*spagethi_time(void *arg)
+void	*spagethi_time(void *arg) // change name
 {
 	t_philo	*philo;
 
@@ -91,9 +79,7 @@ int	create_philos(t_table *table)
 	int	i;
 
 	i = 0;
-	if (table->nbr_meals <= 0)
-		return (error("nbr of meals", E_INVALIDINPT), -1);
-	else if (table->nbr_philos == 1)
+	if (table->nbr_philos == 1)
 	{
 		if (pthread_create(&table->philos[0].thread_id, NULL,
 				single_philo, &table->philos[0]) != 0)
@@ -122,7 +108,7 @@ int	dinner(t_table *table)
 		return (-1);
 	if (create_philos(table) == -1)
 		return (-1);
-	if (pthread_create(&table->doctor, NULL, monitor_dinner, table) != 0)
+	if (pthread_create(&table->doctor, NULL, monitor_dinner, table) != 0) // change name of doctor
 		return (error(NULL, E_PTHREAD), -1);
 	while (j < table->nbr_philos)
 	{

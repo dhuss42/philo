@@ -16,11 +16,11 @@ void	distribute_forks(t_philo *philo, t_fork *forks, int position)
 {
 	philo->left_fork = &forks[position];
 	philo->right_fork = &forks[(position + 1) % philo->table->nbr_philos];
-	if (philo->id % 2 == 0)
-	{
-		philo->left_fork = &forks[position];
-		philo->right_fork = &forks[(position + 1) % philo->table->nbr_philos];
-	}
+	// if (philo->id % 2 == 0)
+	// {
+	// 	philo->left_fork = &forks[position];
+	// 	philo->right_fork = &forks[(position + 1) % philo->table->nbr_philos];
+	// }
 }
 // function to distribute forks in a circular manner
 // for even numbered philos the distribution is reversed to avoid deadlock
@@ -37,7 +37,7 @@ void	set_philo(t_table *table)
 		table->philos[i].meals_eaten = 0;
 		table->philos[i].table = table;
 		table->philos[i].dead = false;
-		table->philos[i].last_meal = table->time_to_eat / 1000;
+		table->philos[i].last_meal = table->time_to_eat;
 		if (pthread_mutex_init(&table->philos[i].philo_mutex, NULL) != 0)
 			error(NULL, E_MUTEX);
 		distribute_forks(&table->philos[i], table->forks, i);

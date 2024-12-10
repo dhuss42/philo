@@ -20,7 +20,7 @@ bool	philo_died(t_philo *philo)
 	elapsed_time = time_stamp(philo->table->start_time);
 	handle_mutex_lock(&philo->table->table_mutex, UNLOCK);
 	handle_mutex_lock(&philo->philo_mutex, LOCK);
-	if (elapsed_time - philo->last_meal >= philo->table->time_to_die / 1000)
+	if (elapsed_time - philo->last_meal >= philo->table->time_to_die)
 	{
 		philo->dead = true;
 		handle_mutex_lock(&philo->philo_mutex, UNLOCK);
@@ -51,7 +51,13 @@ void	dead_or_full(t_table *table, int *i)
 {
 	if (philo_died(&table->philos[(*i)]))
 	{
-		usleep(1000);
+		if (table->nbr_philos > 150)
+			if (table->nbr_philos % 2 != 0)
+				usleep(6500);
+			else
+				usleep(2000);
+		else
+			usleep(1000);
 		write_status(&table->philos[(*i)], "died");
 		set_bool(&table->table_mutex, &table->finished, true);
 	}
