@@ -37,13 +37,13 @@ After creation all philosopher threads, wait until every thread is ready to ensu
 
 The philosopher then performs the following actions:
 
-*Eating*
+*Eating*  
 The philosopher attempts to acquire two forks (mutex-protected), blocking access to them for other threads. A status message is logged, including the timestamp (in milliseconds), the philosopher’s number, and a message indicating the fork has been taken. The last meal time for the philosopher is updated, and a status message indicates that the philosopher is eating. The thread then waits for a specified duration to simulate eating, and a counter tracking how many times the philosopher has eaten is incremented. If the philosopher has eaten the required number of meals, a flag is set to indicate they are "full."
 
-*Sleeping*
+*Sleeping*  
 After eating, the philosopher logs a status message and enters the sleeping phase for a specified duration.
 
-*Thinking*
+*Thinking*  
 After sleeping, the philosopher logs another status message and begins thinking.
 For even-numbered philosophers, the system is inherently fair, so no special action is taken. However, if the number oh philosophers is not even, the thinking time hast to be adjusted to make the system fair in every situation (sometimes philos will eat twice in a row because they blocked the forks twice in a row). The possible time to think is time to eat * 2 - time to sleep. In order to avoid a philo eating twice in a row the philo will forcefully think for at least 50% of the possible time to tink.
 
