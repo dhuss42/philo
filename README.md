@@ -53,10 +53,10 @@ if all philosophers are "full" (have completed the required number of meals) the
     
 To ensure thread safety and prevent race conditions, various mutexes are employed
 
-Philosopher Mutexes: Protect access to variables within each philosopher's data structure.
-Table Mutexes: Protect shared variables in the table structure.
-Fork Mutexes: Control access to the shared forks, ensuring only one philosopher can hold a fork at any given time.
-Write Mutexes: Ensure thread-safe logging of status messages.
+Philosopher Mutexes: Protect access to variables within each philosopher's data structure.  
+Table Mutexes: Protect shared variables in the table structure.  
+Fork Mutexes: Control access to the shared forks, ensuring only one philosopher can hold a fork at any given time.  
+Write Mutexes: Ensure thread-safe logging of status messages.  
 
 Once the simulation concludes, all threads (philosophers and the monitor) are joined together.
 
