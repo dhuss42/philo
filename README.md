@@ -33,18 +33,14 @@ The set_the_table function is responsible for setting up the philosophers' dinin
 
 Each philosopher is represented by a separate thread. Philosophers alternately think, eat, and sleep, with the requirement that they must use shared resources (forks) to eat.
 
-After creation all philosopher threads, they wait until every thread is ready to ensure a simultaneous start. To prevent potential deadlocks or unfair access to forks, even-numbered philosophers are desynchronized to begin with the "thinking" phase.
+After creation all philosopher threads, wait until every thread is ready to ensure a simultaneous start. To prevent potential deadlocks or unfair access to forks, even-numbered philosophers are desynchronized to begin with the "thinking" phase.
 
 Each philosopher thread runs a loop until the simulation ends. During each iteration, the thread checks if the philosopher is "full" (has eaten the required number of meals) or "dead" (due to exceeding the time limit without eating).
 
 The philosopher then performs the following actions:
 
 *Eating*
-The philosopher attempts to acquire two forks (mutex-protected), blocking access to them for other threads.
-A status message is logged, including the timestamp (in milliseconds), the philosopher’s number, and a message indicating the fork has been taken.
-The last meal time for the philosopher is updated, and a status message indicates that the philosopher is eating.
-The thread then waits for a specified duration to simulate eating, and a counter tracking how many times the philosopher has eaten is incremented.
-If the philosopher has eaten the required number of meals, a flag is set to indicate they are "full."
+The philosopher attempts to acquire two forks (mutex-protected), blocking access to them for other threads. A status message is logged, including the timestamp (in milliseconds), the philosopher’s number, and a message indicating the fork has been taken. The last meal time for the philosopher is updated, and a status message indicates that the philosopher is eating. The thread then waits for a specified duration to simulate eating, and a counter tracking how many times the philosopher has eaten is incremented. If the philosopher has eaten the required number of meals, a flag is set to indicate they are "full."
 
 *Sleeping*
 After eating, the philosopher logs a status message and enters the sleeping phase for a specified duration.
