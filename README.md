@@ -69,7 +69,7 @@ At the conclusion of the simulation, the program performs cleanup to release all
 Copy the following code to run philo 
 
 ```
-git clone 
+git clone https://github.com/dhuss42/philo.git philo
 cd philo/philo
 make
 ./philo 5 610 200 200 5
