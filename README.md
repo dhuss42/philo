@@ -33,9 +33,7 @@ The set_the_table function is responsible for setting up the philosophers' dinin
 
 Each philosopher is represented by a separate thread. Philosophers alternately think, eat, and sleep, with the requirement that they must use shared resources (forks) to eat.
 
-After creation all philosopher threads, wait until every thread is ready to ensure a simultaneous start. To prevent potential deadlocks or unfair access to forks, even-numbered philosophers are desynchronized to begin with the "thinking" phase.
-
-Each philosopher thread runs a loop until the simulation ends. During each iteration, the thread checks if the philosopher is "full" (has eaten the required number of meals) or "dead" (due to exceeding the time limit without eating).
+After creation all philosopher threads, wait until every thread is ready to ensure a simultaneous start. To prevent potential deadlocks or unfair access to forks, even-numbered philosophers are desynchronized to begin with the "thinking" phase. Each philosopher thread runs a loop until the simulation ends. During each iteration, the thread checks if the philosopher is "full" (has eaten the required number of meals) or "dead" (due to exceeding the time limit without eating).
 
 The philosopher then performs the following actions:
 
