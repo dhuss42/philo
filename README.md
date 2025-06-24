@@ -12,10 +12,10 @@ This project was about learning the basics of threading a process. To be more sp
 
 ## 2. Project structure
 
-3.1  [Parser](#31-Parser)
-3.2  [Setting the table](#32-Setting-the-table)
-3.3  [Simulation](#33-Simulation)
-3.4  [Cleaning up](##34-Cleaning-up)
+3.1  [Parser](#31-Parser)  
+3.2  [Setting the table](#32-Setting-the-table)  
+3.3  [Simulation](#33-Simulation)  
+3.4  [Cleaning up](##34-Cleaning-up)  
 
 ## 3. Description of individual steps
 
